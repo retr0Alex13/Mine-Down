@@ -28,9 +28,9 @@ public class PlayerMove : MonoBehaviour
 
     private IEnumerator MoveToPoint()
     {
-        CheckTargetDirection();
+        SetTargetDirection();
 
-        while (Vector3.Distance(transform.position, targetPosition) >= 0f)
+        while (Vector3.Distance(transform.position, targetPosition) > 0f)
         {
             Vector3 newPosition = Vector3.Lerp(transform.position, targetPosition, moveSpeed * Time.deltaTime);
             body.MovePosition(newPosition);
@@ -38,7 +38,7 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private void CheckTargetDirection()
+    private void SetTargetDirection()
     {
         if (swipeDirection == Vector2.left)
         {
