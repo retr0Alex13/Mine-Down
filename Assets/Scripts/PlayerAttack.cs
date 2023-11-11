@@ -8,23 +8,40 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private float attackRange = 1f;
 
+    private Vector2 attackDirection;
+    private PlayerMove playerMove;
+
+    private void Awake()
+    {
+        playerMove = GetComponent<PlayerMove>();
+    }
+
     private void Start()
     {
-        swipeDetection.OnSwipeDirection += Attack;
+        swipeDetection.OnVerticalSwipe += VerticalAttack;
+        swipeDetection.OnHorizontalSwipe += HorizontalAttack;
     }
 
-    private void Update()
+    private void HorizontalAttack(Vector2 direction)
     {
-        Debug.DrawRay(transform.position, Vector2.down * attackRange, Color.red);
-        Debug.DrawRay(transform.position, Vector2.up * attackRange, Color.red);
-        Debug.DrawRay(transform.position, Vector2.left * attackRange, Color.red);
-        Debug.DrawRay(transform.position, Vector2.right * attackRange, Color.red);
+        attackDirection = direction;
+        Attack();
     }
 
-    private void Attack(Vector2 direction)
+    private void VerticalAttack(Vector2 direction)
+    {
+        if (playerMove.IsMoving)
+        {
+            return;
+        }
+        attackDirection = direction;
+        Attack();
+    }
+
+    private void Attack()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, direction, out hit, attackRange))
+        if (Physics.Raycast(transform.position, attackDirection, out hit, attackRange))
         {
             if (hit.transform.TryGetComponent(out IDestroyable destroyable))
             {

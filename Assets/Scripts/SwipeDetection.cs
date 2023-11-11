@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class SwipeDetection : MonoBehaviour
 {
+    #region events
     public delegate void SwipeDetectionAction(Vector2 direction);
-    public event SwipeDetectionAction OnSwipeDirection;
+    public event SwipeDetectionAction OnHorizontalSwipe;
+    public event SwipeDetectionAction OnVerticalSwipe;
+    #endregion
 
     [SerializeField]
     private float minimumDistance = 0.2f;
@@ -68,22 +71,22 @@ public class SwipeDetection : MonoBehaviour
     {
         if (Vector2.Dot(Vector2.up, direction) > directionThreshold)
         {
-            OnSwipeDirection?.Invoke(Vector2.up);
+            OnVerticalSwipe?.Invoke(Vector2.up);
             Debug.Log("Swipe Up");
         }
         else if (Vector2.Dot(Vector2.down, direction) > directionThreshold)
         {
-            OnSwipeDirection?.Invoke(Vector2.down);
+            OnVerticalSwipe?.Invoke(Vector2.down);
             Debug.Log("Swipe Down");
         }
         else if (Vector2.Dot(Vector2.left, direction) > directionThreshold)
         {
-            OnSwipeDirection?.Invoke(Vector2.left);
+            OnHorizontalSwipe?.Invoke(Vector2.left);
             Debug.Log("Swipe Left");
         }
         else if (Vector2.Dot(Vector2.right, direction) > directionThreshold)
         {
-            OnSwipeDirection?.Invoke(Vector2.right);
+            OnHorizontalSwipe?.Invoke(Vector2.right);
             Debug.Log("Swipe Right");
         }
     }

@@ -16,18 +16,27 @@
                 },
                 {
                     "name": "PrimaryPosition",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "81c66476-2404-49fa-9ea6-c4a8f73321a0",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PrimaryStartPosition",
+                    "type": "PassThrough",
+                    "id": "ec2beae6-9853-45e4-b975-b10f9ba8cac8",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "id": "e3838122-b434-4648-8c82-21e40069ec0a",
+                    "id": "a44064b9-e398-4eba-8e1e-be6908cccf74",
                     "path": "<Touchscreen>/primaryTouch/press",
                     "interactions": "",
                     "processors": "",
@@ -38,7 +47,7 @@
                 },
                 {
                     "name": "",
-                    "id": "2729ebef-349e-4133-8bf8-f1ec1023793f",
+                    "id": "a1c189ad-6d48-4e4d-b1b2-3535bc6c095e",
                     "path": "<Touchscreen>/primaryTouch/position",
                     "interactions": "",
                     "processors": "",
@@ -46,15 +55,20 @@
                     "action": "PrimaryPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b438c7d5-d913-4de8-9ba1-21db7b53a2f5",
+                    "path": "<Touchscreen>/primaryTouch/startPosition",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PrimaryStartPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
     ],
-    "controlSchemes": [
-        {
-            "name": "Touch",
-            "bindingGroup": "Touch",
-            "devices": []
-        }
-    ]
+    "controlSchemes": []
 }

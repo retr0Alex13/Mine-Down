@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using UnityEngine.InputSystem;
@@ -38,10 +39,11 @@ public class InputManager : Singleton<InputManager>
         playerControls.Touch.PrimaryContact.canceled += ctx => EndTouchPrimary(ctx);
     }
 
-    private void StartTouchPrimary(InputAction.CallbackContext context)
+    private async void StartTouchPrimary(InputAction.CallbackContext context)
     {
+        await Task.Delay(50);
         OnStartTouch?.Invoke(TouchUtills.ScreenToWorld(mainCamera, 
-            playerControls.Touch.PrimaryPosition.ReadValue<Vector2>()), (float)context.startTime);
+            playerControls.Touch.PrimaryStartPosition.ReadValue<Vector2>()), (float)context.startTime);
     }
 
     private void EndTouchPrimary(InputAction.CallbackContext context)
