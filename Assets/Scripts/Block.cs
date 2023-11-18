@@ -4,6 +4,6 @@ public class Block : MonoBehaviour, IDestroyable
 {
     public void Destroy()
     {
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

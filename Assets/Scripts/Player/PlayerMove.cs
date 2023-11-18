@@ -39,8 +39,6 @@ public class PlayerMove : MonoBehaviour
         {
             IsGrounded = false;
         }
-
-        Debug.Log(IsMoving);
     }
 
     private void OnDrawGizmos()
