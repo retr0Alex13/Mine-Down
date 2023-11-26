@@ -3,18 +3,12 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    [SerializeField]
-    private SwipeDetection swipeDetection;
-    [SerializeField]
-    private float blockWidth = 1f;
-    [SerializeField]
-    private float moveSpeed = 15f;
-    [SerializeField]
-    private float groundCheckRadius = 0.5f;
-    [SerializeField]
-    private Transform groundCheck;
-    [SerializeField]
-    private LayerMask playerLayerMask;
+    [SerializeField] private SwipeDetection swipeDetection;
+    [SerializeField] private float blockWidth = 1f;
+    [SerializeField] private float moveSpeed = 15f;
+    [SerializeField] private float groundCheckRadius = 0.5f;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask playerLayerMask;
 
     private Rigidbody body;
     private Vector3 targetPosition;
