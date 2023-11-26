@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class BlockType
@@ -11,61 +13,80 @@ public class BlockType
 
 public class BlockGenerating : MonoBehaviour
 {
-    [SerializeField]
-    private List<BlockType> blockTypes;
-    [SerializeField]
-    private GameObject wallBlock;
-    [SerializeField]
-    private GameObject dirtBlock;
-    [SerializeField]
-    private Transform blockSpawnPosition;
-    [SerializeField]
-    private Transform blockParent;
-    [SerializeField]
-    private BoxCollider nextLevelCollider;
-    [SerializeField]
-    private float levelClearDelay = 2f;
+    [SerializeField] private List<BlockType> blockTypes;
+    [SerializeField] private GameObject wallBlock;
+    [SerializeField] private GameObject dirtBlock;
 
-    [SerializeField]
-    private int cubesPerRow = 4;
-    [SerializeField]
-    private int rowsCount = 10;
+    [SerializeField] private Transform blockSpawnPosition;
+    [SerializeField] private Transform blockParent;
 
-    private float blockSpacing = 1f;
+    [SerializeField] private BoxCollider startLevelCollider;
+    [SerializeField] private BoxCollider endLevelCollider;
+
+    [SerializeField] private float levelSpacing = 20f;
+    [SerializeField] private float levelClearDelay = 2f;
+
+    [SerializeField] private int cubesPerRow = 4;
+    [SerializeField] private int rowsCount = 10;
+    [SerializeField] private int maxCubesPerRow = 10;
+    [SerializeField] private int maxRowsCountPerLevel = 20;
+
 
     private List<GameObject> previousLevelList = new List<GameObject>();
     private List<GameObject> nextLevelList = new List<GameObject>();
+
+    public static event Action<int> OnLevelEnded;
 
 
     private void Start()
     {
         Application.targetFrameRate = 60;
 
-        NextLevelTrigger.OnNextLevelTriggered += ProcessClearLevel;
-        NextLevelTrigger.OnNextLevelTriggered += ProcessBlockGenerating;
+        OnLevelEndTrigger.OnLevelEndTriggered += ProcessClearLevel;
+        OnLevelEndTrigger.OnLevelEndTriggered += ProcessBlockGenerating;
         GenerateBlocks();
     }
 
     private void OnDisable()
     {
-        NextLevelTrigger.OnNextLevelTriggered -= ProcessClearLevel;
-        NextLevelTrigger.OnNextLevelTriggered -= ProcessBlockGenerating;
+        OnLevelEndTrigger.OnLevelEndTriggered -= ProcessClearLevel;
+        OnLevelEndTrigger.OnLevelEndTriggered -= ProcessBlockGenerating;
     }
 
     private void ProcessBlockGenerating()
     {
         Vector3 middleRowPosition = GetLastRowMiddlePosition();
-        blockSpawnPosition.position = new Vector3(blockSpawnPosition.position.x, middleRowPosition.y - 20f, blockSpawnPosition.position.z);
+        SetBlockSpawnPosition(middleRowPosition);
         GenerateBlocks();
     }
 
+    private void SetBlockSpawnPosition(Vector3 middleRowPosition)
+    {
+        blockSpawnPosition.position = new Vector3(blockSpawnPosition.position.x, middleRowPosition.y - levelSpacing, blockSpawnPosition.position.z);
+    }
+
+    #region GetRowPosition
     private Vector3 GetLastRowMiddlePosition()
     {
         int lastRow = rowsCount - 1;
-        float middleXPosition = (cubesPerRow - 1) * 0.5f * blockSpacing;
-        Vector3 middleRowPosition = blockSpawnPosition.position + new Vector3(middleXPosition, -lastRow * blockSpacing, 0f);
+        Vector3 lastRowMiddlePosition = GetMiddleRowPosition(lastRow);
+        return lastRowMiddlePosition;
+    }
+
+    private Vector3 GetFirstRowMiddlePosition()
+    {
+        int firstRow = 0;
+        Vector3 firstRowMiddlePosition = GetMiddleRowPosition(firstRow);
+        return firstRowMiddlePosition;
+    }
+
+    private Vector3 GetMiddleRowPosition(int row)
+    {
+        float middleXPosition =  (cubesPerRow - 1) * 0.5f * 1f;
+        Vector3 middleRowPosition = blockSpawnPosition.position + new Vector3(middleXPosition, -row * 1f, 0f);
         return middleRowPosition;
     }
+    #endregion
 
     private void GenerateBlocks()
     {
@@ -73,7 +94,16 @@ public class BlockGenerating : MonoBehaviour
         {
             for (int cubeIndex = 0; cubeIndex < cubesPerRow; cubeIndex++)
             {
-                Vector3 spawnPosition = blockSpawnPosition.position + new Vector3(cubeIndex * blockSpacing, -row * blockSpacing);
+                if (row == 0)
+                {
+                    if (IsWallSpawnPoint(cubeIndex))
+                    {
+                        SpawnWall(cubeIndex, row);
+                    }
+                    continue;
+                }
+
+                Vector3 spawnPosition = blockSpawnPosition.position + new Vector3(cubeIndex * 1f, -row * 1f);
 
                 float randomValue = Random.value;
                 GameObject blockPrefab = ChooseBlockPrefab(randomValue);
@@ -89,7 +119,8 @@ public class BlockGenerating : MonoBehaviour
                 }
             }
         }
-        SetNextLevelCollider();
+        SetCubesAndRows();
+        SetNextLevelColliders();
     }
 
     private bool IsWallSpawnPoint(int cubeIndex)
@@ -99,7 +130,7 @@ public class BlockGenerating : MonoBehaviour
 
     private void SpawnWall(int cubeIndex, int row)
     {
-        Vector3 specialBlockSpawnPos = blockSpawnPosition.position + new Vector3((cubeIndex == 0) ? -blockSpacing : cubesPerRow * blockSpacing, -row * blockSpacing, 0f);
+        Vector3 specialBlockSpawnPos = blockSpawnPosition.position + new Vector3((cubeIndex == 0) ? -1f : cubesPerRow * 1f, -row * 1f, 0f);
         nextLevelList.Add(Instantiate(wallBlock, specialBlockSpawnPos, Quaternion.identity, blockParent));
     }
 
@@ -119,18 +150,45 @@ public class BlockGenerating : MonoBehaviour
         return dirtBlock;
     }
 
-    private void SetNextLevelCollider()
+    private void SetNextLevelColliders()
     {
-        float lastRowYPos = -rowsCount * 1f;
         float colliderWidth = cubesPerRow * 1f;
+        float colliderOffset = 1f;
 
-        float xOffset = (colliderWidth - 1f) / 2f;
-
-        Vector3 triggerColliderPosition = blockSpawnPosition.position + new Vector3(xOffset, lastRowYPos, 0f);
-        nextLevelCollider.transform.position = triggerColliderPosition;
-        nextLevelCollider.size = new Vector2(colliderWidth, 0.1f);
-        nextLevelCollider.gameObject.SetActive(true);
+        SetFirstTriggerCollider(colliderWidth, colliderOffset);
+        SetLastTriggerCollider(colliderWidth, colliderOffset);
     }
+
+    private void SetCubesAndRows()
+    {
+        cubesPerRow++;
+        rowsCount += 2;
+        if (cubesPerRow >= maxCubesPerRow)
+        {
+            cubesPerRow = maxCubesPerRow;
+        }
+        if (rowsCount > maxRowsCountPerLevel)
+        {
+            rowsCount = maxRowsCountPerLevel;
+        }
+    }
+
+    #region SetTriggerPosition
+    private void SetFirstTriggerCollider(float colliderWidth, float colliderOffset)
+    {
+        Vector3 lastTriggerColliderPosition = new Vector3(GetLastRowMiddlePosition().x, GetLastRowMiddlePosition().y - colliderOffset, 0f);
+        endLevelCollider.transform.position = lastTriggerColliderPosition;
+        endLevelCollider.size = new Vector2(colliderWidth, 0.1f);
+        endLevelCollider.gameObject.SetActive(true);
+    }
+    private void SetLastTriggerCollider(float colliderWidth, float colliderOffset)
+    {
+        Vector3 firstTriggerColliderPosition = new Vector3(GetFirstRowMiddlePosition().x, GetFirstRowMiddlePosition().y + colliderOffset, 0f);
+        startLevelCollider.transform.position = firstTriggerColliderPosition;
+        startLevelCollider.size = new Vector2(colliderWidth, 0.1f);
+        startLevelCollider.gameObject.SetActive(true);
+    }
+    #endregion
 
     private void ProcessClearLevel()
     {
