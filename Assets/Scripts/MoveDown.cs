@@ -26,7 +26,7 @@ public class MoveDown : MonoBehaviour
 
     private void SetSpeed()
     {
-        speed += 0.1f;
+        speed += speedMultiplier;
         if (speed > maxSpeed)
         {
             speed = maxSpeed;

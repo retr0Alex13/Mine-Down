@@ -10,7 +10,7 @@ public class BlockType
     public GameObject blockPrefab;
     public float spawnChance;
 }
-
+// Increase rows and cubes only one time in two finished levels
 public class BlockGenerating : MonoBehaviour
 {
     [SerializeField] private List<BlockType> blockTypes;
@@ -34,9 +34,6 @@ public class BlockGenerating : MonoBehaviour
 
     private List<GameObject> previousLevelList = new List<GameObject>();
     private List<GameObject> nextLevelList = new List<GameObject>();
-
-    public static event Action<int> OnLevelEnded;
-
 
     private void Start()
     {
