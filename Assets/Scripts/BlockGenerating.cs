@@ -23,11 +23,16 @@ public class BlockGenerating : MonoBehaviour
     [SerializeField] private BoxCollider startLevelCollider;
     [SerializeField] private BoxCollider endLevelCollider;
 
+    [Space(5), Header("Level settings")]
     [SerializeField] private float levelSpacing = 20f;
     [SerializeField] private float levelClearDelay = 2f;
 
     [SerializeField] private int cubesPerRow = 4;
-    [SerializeField] private int rowsCount = 10;
+    [SerializeField] private int rowsCount = 15;
+
+    [SerializeField] private int addCubesPerLevel = 1;
+    [SerializeField] private int addRowsPerLevel = 5;
+
     [SerializeField] private int maxCubesPerRow = 10;
     [SerializeField] private int maxRowsCountPerLevel = 20;
 
@@ -158,8 +163,9 @@ public class BlockGenerating : MonoBehaviour
 
     private void SetCubesAndRows()
     {
-        cubesPerRow++;
-        rowsCount += 2;
+        cubesPerRow += addCubesPerLevel;
+        rowsCount += addRowsPerLevel;
+
         if (cubesPerRow >= maxCubesPerRow)
         {
             cubesPerRow = maxCubesPerRow;
