@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,35 +9,30 @@ public class BlockType
     public GameObject blockPrefab;
     public float spawnChance;
 }
-// Increase rows and cubes only one time in two finished levels
+
 public class BlockGenerating : MonoBehaviour
 {
     [SerializeField] private List<BlockType> blockTypes;
     [SerializeField] private GameObject wallBlock;
     [SerializeField] private GameObject dirtBlock;
-
     [SerializeField] private Transform blockSpawnPosition;
     [SerializeField] private Transform blockParent;
-
     [SerializeField] private BoxCollider startLevelCollider;
     [SerializeField] private BoxCollider endLevelCollider;
 
     [Space(5), Header("Level settings")]
     [SerializeField] private float levelSpacing = 20f;
     [SerializeField] private float levelClearDelay = 2f;
-
-    [SerializeField] private int cubesPerRow = 4;
-    [SerializeField] private int rowsCount = 15;
-
-    [SerializeField] private int addCubesPerLevel = 1;
-    [SerializeField] private int addRowsPerLevel = 5;
-
-    [SerializeField] private int maxCubesPerRow = 10;
-    [SerializeField] private int maxRowsCountPerLevel = 20;
-
+    [SerializeField, Range(1, 10)] private int cubesPerRow = 4;
+    [SerializeField, Range(1, 20)] private int rowsCount = 15;
+    [SerializeField, Range(1, 10)] private int addCubesPerLevel = 1;
+    [SerializeField, Range(1, 20)] private int addRowsPerLevel = 5;
+    [SerializeField, Range(1, 10)] private int maxCubesPerRow = 10;
+    [SerializeField, Range(1, 20)] private int maxRowsCountPerLevel = 20;
 
     private List<GameObject> previousLevelList = new List<GameObject>();
     private List<GameObject> nextLevelList = new List<GameObject>();
+    private DepthFirstSearch dfs;
 
     private void Start()
     {
@@ -57,7 +51,7 @@ public class BlockGenerating : MonoBehaviour
 
     private void ProcessBlockGenerating()
     {
-        Vector3 middleRowPosition = GetLastRowMiddlePosition();
+        Vector3 middleRowPosition = GetRowMiddlePosition(rowsCount - 1);
         SetBlockSpawnPosition(middleRowPosition);
         GenerateBlocks();
     }
@@ -67,31 +61,19 @@ public class BlockGenerating : MonoBehaviour
         blockSpawnPosition.position = new Vector3(blockSpawnPosition.position.x, middleRowPosition.y - levelSpacing, blockSpawnPosition.position.z);
     }
 
-    #region GetRowPosition
-    private Vector3 GetLastRowMiddlePosition()
+    private Vector3 GetRowMiddlePosition(int row)
     {
-        int lastRow = rowsCount - 1;
-        Vector3 lastRowMiddlePosition = GetMiddleRowPosition(lastRow);
-        return lastRowMiddlePosition;
+        float middleXPosition = (cubesPerRow - 1) * 0.5f * 1f;
+        return blockSpawnPosition.position + new Vector3(middleXPosition, -row * 1f, 0f);
     }
-
-    private Vector3 GetFirstRowMiddlePosition()
-    {
-        int firstRow = 0;
-        Vector3 firstRowMiddlePosition = GetMiddleRowPosition(firstRow);
-        return firstRowMiddlePosition;
-    }
-
-    private Vector3 GetMiddleRowPosition(int row)
-    {
-        float middleXPosition =  (cubesPerRow - 1) * 0.5f * 1f;
-        Vector3 middleRowPosition = blockSpawnPosition.position + new Vector3(middleXPosition, -row * 1f, 0f);
-        return middleRowPosition;
-    }
-    #endregion
 
     private void GenerateBlocks()
     {
+        dfs = new DepthFirstSearch();
+
+        // Perform DFS to get a path from top to bottom
+        List<Vector2Int> path = dfs.FindPath(rowsCount, cubesPerRow);
+
         for (int row = 0; row < rowsCount; row++)
         {
             for (int cubeIndex = 0; cubeIndex < cubesPerRow; cubeIndex++)
@@ -110,6 +92,12 @@ public class BlockGenerating : MonoBehaviour
                 float randomValue = Random.value;
                 GameObject blockPrefab = ChooseBlockPrefab(randomValue);
 
+                // Set dirt block for the path created by DFS
+                if (path.Contains(new Vector2Int(cubeIndex, row)))
+                {
+                    blockPrefab = dirtBlock;
+                }
+
                 if (blockPrefab != null)
                 {
                     nextLevelList.Add(Instantiate(blockPrefab, spawnPosition, Quaternion.identity, blockParent));
@@ -121,6 +109,7 @@ public class BlockGenerating : MonoBehaviour
                 }
             }
         }
+
         SetCubesAndRows();
         SetNextLevelColliders();
     }
@@ -140,14 +129,15 @@ public class BlockGenerating : MonoBehaviour
     {
         float accumulatedChance = 0f;
 
-        for (int i = 0; i < blockTypes.Count; i++)
+        foreach (var blockType in blockTypes)
         {
-            accumulatedChance += blockTypes[i].spawnChance;
+            accumulatedChance += blockType.spawnChance;
             if (randomValue < accumulatedChance)
             {
-                return blockTypes[i].blockPrefab;
+                return blockType.blockPrefab;
             }
         }
+
         // Return default dirt block
         return dirtBlock;
     }
@@ -157,68 +147,56 @@ public class BlockGenerating : MonoBehaviour
         float colliderWidth = cubesPerRow * 1f;
         float colliderOffset = 1f;
 
-        SetFirstTriggerCollider(colliderWidth, colliderOffset);
-        SetLastTriggerCollider(colliderWidth, colliderOffset);
+        SetTriggerCollider(endLevelCollider, GetRowMiddlePosition(rowsCount - 1), colliderOffset, colliderWidth);
+        SetTriggerCollider(startLevelCollider, GetRowMiddlePosition(0), -colliderOffset, colliderWidth);
     }
 
     private void SetCubesAndRows()
     {
-        cubesPerRow += addCubesPerLevel;
-        rowsCount += addRowsPerLevel;
-
-        if (cubesPerRow >= maxCubesPerRow)
-        {
-            cubesPerRow = maxCubesPerRow;
-        }
-        if (rowsCount > maxRowsCountPerLevel)
-        {
-            rowsCount = maxRowsCountPerLevel;
-        }
+        cubesPerRow = Mathf.Min(cubesPerRow + addCubesPerLevel, maxCubesPerRow);
+        rowsCount = Mathf.Min(rowsCount + addRowsPerLevel, maxRowsCountPerLevel);
     }
 
-    #region SetTriggerPosition
-    private void SetFirstTriggerCollider(float colliderWidth, float colliderOffset)
+    private void SetTriggerCollider(BoxCollider collider, Vector3 position, float offset, float width)
     {
-        Vector3 lastTriggerColliderPosition = new Vector3(GetLastRowMiddlePosition().x, GetLastRowMiddlePosition().y - colliderOffset, 0f);
-        endLevelCollider.transform.position = lastTriggerColliderPosition;
-        endLevelCollider.size = new Vector2(colliderWidth, 0.1f);
-        endLevelCollider.gameObject.SetActive(true);
+        Vector3 triggerColliderPosition = new Vector3(position.x, position.y + offset, 0f);
+        collider.transform.position = triggerColliderPosition;
+        collider.size = new Vector2(width, 0.1f);
+        collider.gameObject.SetActive(true);
     }
-    private void SetLastTriggerCollider(float colliderWidth, float colliderOffset)
-    {
-        Vector3 firstTriggerColliderPosition = new Vector3(GetFirstRowMiddlePosition().x, GetFirstRowMiddlePosition().y + colliderOffset, 0f);
-        startLevelCollider.transform.position = firstTriggerColliderPosition;
-        startLevelCollider.size = new Vector2(colliderWidth, 0.1f);
-        startLevelCollider.gameObject.SetActive(true);
-    }
-    #endregion
 
     private void ProcessClearLevel()
     {
         StartCoroutine(ClearLevelWithDelay(levelClearDelay));
     }
 
-    // Don't touch
     private IEnumerator ClearLevelWithDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
 
-        foreach (GameObject cube in previousLevelList)
+        ClearAndInstantiateLevel(previousLevelList);
+        ClearAndInstantiateLevel(nextLevelList);
+    }
+
+    private void ClearAndInstantiateLevel(List<GameObject> levelList)
+    {
+        foreach (var cube in levelList)
         {
             if (cube != null)
             {
                 Destroy(cube);
             }
         }
-        previousLevelList.Clear();
-        foreach (GameObject cube in nextLevelList)
+
+        levelList.Clear();
+
+        foreach (var cube in nextLevelList)
         {
             if (cube != null)
             {
-                previousLevelList.Add(Instantiate(cube, blockParent));
+                levelList.Add(Instantiate(cube, blockParent));
                 Destroy(cube);
             }
         }
-        nextLevelList.Clear();
     }
 }
