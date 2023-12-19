@@ -6,6 +6,9 @@ public class PlayerAttack : MonoBehaviour
     private SwipeDetection swipeDetection;
 
     [SerializeField]
+    private int attackAmount = 1;
+
+    [SerializeField]
     private float attackRange = 1f;
 
     private Vector2 attackDirection;
@@ -16,10 +19,16 @@ public class PlayerAttack : MonoBehaviour
         playerMove = GetComponent<PlayerMove>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
         swipeDetection.OnVerticalSwipe += VerticalAttack;
         swipeDetection.OnHorizontalSwipe += HorizontalAttack;
+    }
+
+    private void OnDisable()
+    {
+        swipeDetection.OnVerticalSwipe -= VerticalAttack;
+        swipeDetection.OnHorizontalSwipe -= HorizontalAttack;
     }
 
     private void HorizontalAttack(Vector2 direction)
@@ -45,7 +54,7 @@ public class PlayerAttack : MonoBehaviour
         {
             if (hit.transform.TryGetComponent(out IDestroyable destroyable))
             {
-                destroyable.Destroy();
+                destroyable.Damage(attackAmount);
             }
         }
     }

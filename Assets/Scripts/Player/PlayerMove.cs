@@ -17,10 +17,19 @@ public class PlayerMove : MonoBehaviour
     public bool IsMoving { get; private set; }
     public bool IsGrounded {  get; private set; }
 
-    private void Start()
+    private void Awake()
+    {
+        body = GetComponent<Rigidbody>();
+    }
+    
+    private void OnEnable()
     {
         swipeDetection.OnHorizontalSwipe += MovePlayer;
-        body = GetComponent<Rigidbody>();
+    }
+
+    private void OnDisable()
+    {
+        swipeDetection.OnHorizontalSwipe -= MovePlayer;
     }
 
     private void Update()
