@@ -837,19 +837,18 @@ MonoBehaviour:
   blockTypes:
   - blockPrefab: {fileID: 1112001855627762644, guid: 318625a28779cab4e8a1f61eac0d3353,
       type: 3}
-    spawnChance: 0.01
-  - blockPrefab: {fileID: 486708175488726358, guid: cbd5d8fdd5ce166419eac8dfafedc2dd,
-      type: 3}
-    spawnChance: 0.05
-  - blockPrefab: {fileID: 4225756335917880555, guid: 83e3a997dc87c9a418f4f75d6787fd80,
-      type: 3}
     spawnChance: 0.05
   - blockPrefab: {fileID: 5578439397541442044, guid: d379abf3316313f42855c2aaca8c016d,
       type: 3}
-    spawnChance: 0.05
-  - blockPrefab: {fileID: 2797165587410630764, guid: 69a54e700e48bfc4883dda658c8717ad,
+    spawnChance: 0.03
+  - blockPrefab: {fileID: 486708175488726358, guid: cbd5d8fdd5ce166419eac8dfafedc2dd,
       type: 3}
-    spawnChance: 0.15
+    spawnChance: 0.1
+  - blockPrefab: {fileID: 4225756335917880555, guid: 83e3a997dc87c9a418f4f75d6787fd80,
+      type: 3}
+    spawnChance: 0.3
+  - blockPrefab: {fileID: 0}
+    spawnChance: 0.3
   wallBlock: {fileID: 4225756335917880555, guid: 83e3a997dc87c9a418f4f75d6787fd80,
     type: 3}
   dirtBlock: {fileID: 3384221456907895875, guid: 533999d98b16b3b4386cd7af63375e67,
@@ -861,11 +860,10 @@ MonoBehaviour:
   levelSpacing: 20
   levelClearDelay: 2
   cubesPerRow: 3
-  rowsCount: 25
+  rowsCount: 20
+  addRowsPerLevel: 10
   addCubesPerLevel: 1
-  addRowsPerLevel: 1
-  maxCubesPerRow: 10
-  maxRowsCountPerLevel: 20
+  maxCubesOnRow: 4
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
