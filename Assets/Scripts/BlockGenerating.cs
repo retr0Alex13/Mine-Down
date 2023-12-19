@@ -23,12 +23,11 @@ public class BlockGenerating : MonoBehaviour
     [Space(5), Header("Level settings")]
     [SerializeField] private float levelSpacing = 20f;
     [SerializeField] private float levelClearDelay = 2f;
-    [SerializeField, Range(1, 10)] private int cubesPerRow = 4;
-    [SerializeField, Range(1, 20)] private int rowsCount = 15;
-    [SerializeField, Range(1, 10)] private int addCubesPerLevel = 1;
-    [SerializeField, Range(1, 20)] private int addRowsPerLevel = 5;
-    [SerializeField, Range(1, 10)] private int maxCubesPerRow = 10;
-    [SerializeField, Range(1, 20)] private int maxRowsCountPerLevel = 20;
+    [SerializeField] private int cubesPerRow = 4;
+    [SerializeField] private int rowsCount = 15;
+    [SerializeField, Range(1, 20)] private int addRowsPerLevel = 10;
+    [SerializeField] private int addCubesPerLevel = 1;
+    [SerializeField, Range(1, 5)] private int maxCubesOnRow = 4;
 
     private List<GameObject> previousLevelList = new List<GameObject>();
     private List<GameObject> nextLevelList = new List<GameObject>();
@@ -145,23 +144,31 @@ public class BlockGenerating : MonoBehaviour
     private void SetNextLevelColliders()
     {
         float colliderWidth = cubesPerRow * 1f;
-        float colliderOffset = 1f;
+        float colliderOffset = -1f;
 
-        SetTriggerCollider(endLevelCollider, GetRowMiddlePosition(rowsCount - 1), colliderOffset, colliderWidth);
-        SetTriggerCollider(startLevelCollider, GetRowMiddlePosition(0), -colliderOffset, colliderWidth);
+        Vector3 lastBlockPosition = nextLevelList[nextLevelList.Count - 1].transform.position;
+
+        SetTriggerCollider(endLevelCollider, lastBlockPosition, colliderOffset, colliderWidth);
+        SetTriggerCollider(startLevelCollider, blockSpawnPosition.position, 0f, colliderWidth);
     }
+
 
     private void SetCubesAndRows()
     {
-        cubesPerRow = Mathf.Min(cubesPerRow + addCubesPerLevel, maxCubesPerRow);
-        rowsCount = Mathf.Min(rowsCount + addRowsPerLevel, maxRowsCountPerLevel);
+        rowsCount += addRowsPerLevel;
+        cubesPerRow += addCubesPerLevel;
+        if (cubesPerRow > maxCubesOnRow)
+        {
+            cubesPerRow = maxCubesOnRow;
+        }
     }
 
-    private void SetTriggerCollider(BoxCollider collider, Vector3 position, float offset, float width)
+    private void SetTriggerCollider(BoxCollider collider, Vector3 position, float colliderYOffset, float colliderWidth)
     {
-        Vector3 triggerColliderPosition = new Vector3(position.x, position.y + offset, 0f);
+        float rowCenterX = blockSpawnPosition.position.x + (cubesPerRow - 1) * 0.5f * 1f;
+        Vector3 triggerColliderPosition = new Vector3(rowCenterX, position.y + colliderYOffset, 0f);
         collider.transform.position = triggerColliderPosition;
-        collider.size = new Vector2(width, 0.1f);
+        collider.size = new Vector2(colliderWidth, 0.1f);
         collider.gameObject.SetActive(true);
     }
 
