@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7953205551424762575}
   - component: {fileID: 2473365313805402971}
   - component: {fileID: 780235947038544197}
+  - component: {fileID: 7100766675114441712}
   m_Layer: 0
   m_Name: Dirt Block
   m_TagString: Untagged
@@ -120,3 +121,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointsAmount: 0
   healthPoints: 1
+--- !u!114 &7100766675114441712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3384221456907895875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d96161bdd42dc414d9ecbacf3593ab57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 8764593180425803795, guid: 913d27b61c1e94c4ab507c2a02d75d4d,
+    type: 3}
+  upEmitAngle: -90
+  rightEmitAngle: -30
+  leftEmitAngle: -130

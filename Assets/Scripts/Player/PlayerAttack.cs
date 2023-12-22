@@ -54,7 +54,7 @@ public class PlayerAttack : MonoBehaviour
         {
             if (hit.transform.TryGetComponent(out IDestroyable destroyable))
             {
-                destroyable.Damage(attackAmount);
+                destroyable.Damage(attackAmount, attackDirection);
             }
         }
     }

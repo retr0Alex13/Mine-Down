@@ -6,7 +6,7 @@ public class PlayerHealth : MonoBehaviour, IDestroyable
     public static event Action OnPlayerDie;
 
     [SerializeField] private int healthPoints = 1;
-    public void Damage(int damage)
+    public void Damage(int damage, Vector2 attackDirection)
     {
         if (healthPoints <= 0)
         {

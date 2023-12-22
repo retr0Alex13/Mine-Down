@@ -7,7 +7,7 @@ public class OnTriggerDestroy : MonoBehaviour
     {
         if (other.transform.TryGetComponent(out IDestroyable destroyable))
         {
-            destroyable.Damage(damageAmount);
+            destroyable.Damage(damageAmount, Vector2.down);
         }
     }
    
