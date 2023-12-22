@@ -18,7 +18,7 @@ public class ParticleInstantiator : MonoBehaviour
         }
         else if (direction == Vector2.right)
         {
-            return Quaternion.Euler(-50f, 70f, 0f);
+            return Quaternion.Euler(-50f, 95f, 0f);
         }
         else if (direction == Vector2.left)
         {
