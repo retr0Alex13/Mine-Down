@@ -52,6 +52,11 @@ public class PlayerAttack : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, attackDirection, out hit, attackRange))
         {
+            if (hit.transform.TryGetComponent(out Block block))
+            {
+                block.DamagedByPlayer = true;
+            }
+
             if (hit.transform.TryGetComponent(out IDestroyable destroyable))
             {
                 destroyable.Damage(attackAmount, attackDirection);

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2572751505763544563}
   - component: {fileID: 8912161449380815793}
   - component: {fileID: 5411423193857076782}
+  - component: {fileID: 4200526066745813309}
   m_Layer: 0
   m_Name: Gold Ore
   m_TagString: Untagged
@@ -120,3 +121,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointsAmount: 20
   healthPoints: 1
+--- !u!114 &4200526066745813309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486708175488726358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d96161bdd42dc414d9ecbacf3593ab57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 8764593180425803795, guid: 182d19fd7b0d99b4684249b310aeff13,
+    type: 3}

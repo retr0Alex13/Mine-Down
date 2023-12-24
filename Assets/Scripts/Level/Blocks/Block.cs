@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Block : MonoBehaviour, IDestroyable
 {
+    public bool DamagedByPlayer { get; set; }
+
     public static event Action<int> OnOreCollected;
 
     [SerializeField] private int pointsAmount = 50;
@@ -24,13 +26,17 @@ public class Block : MonoBehaviour, IDestroyable
             Destroy(gameObject);
             healthPoints = 0;
 
-            OnOreCollected?.Invoke(pointsAmount);
-
-            if (attackDirection == null  || particleEmitter == null)
+            if (attackDirection == null || particleEmitter == null)
             {
                 return;
             }
             particleEmitter.InstantiateParticleInDirection(attackDirection);
+
+            if (!DamagedByPlayer)
+            {
+                return;
+            }
+            OnOreCollected?.Invoke(pointsAmount);
         }
     }
 }

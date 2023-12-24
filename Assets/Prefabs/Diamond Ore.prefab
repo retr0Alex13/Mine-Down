@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3579261409010102482}
   - component: {fileID: 1188444959551016402}
   - component: {fileID: 251435873078758725}
+  - component: {fileID: 7780667628344654286}
   m_Layer: 0
   m_Name: Diamond Ore
   m_TagString: Untagged
@@ -120,3 +121,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointsAmount: 50
   healthPoints: 1
+--- !u!114 &7780667628344654286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112001855627762644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d96161bdd42dc414d9ecbacf3593ab57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 8764593180425803795, guid: 7686d7302cdd2f44e97c95513126c141,
+    type: 3}
