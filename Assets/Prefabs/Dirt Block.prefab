@@ -133,8 +133,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d96161bdd42dc414d9ecbacf3593ab57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particle: {fileID: 8764593180425803795, guid: 913d27b61c1e94c4ab507c2a02d75d4d,
+  particle: {fileID: 8764593180425803795, guid: 3fe75ac587c797741896788083ab2f47,
     type: 3}
-  upEmitAngle: -90
-  rightEmitAngle: -30
-  leftEmitAngle: -130
