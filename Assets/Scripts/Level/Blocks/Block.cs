@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class Block : MonoBehaviour, IDestroyable
 {
-    public bool DamagedByPlayer { get; set; }
+    public bool DamagedByPlayer { get; private set; }
+    [field: SerializeField] public int HealthPoints { get; private set; }
 
     public static event Action<int> OnOreCollected;
 
     [SerializeField] private int pointsAmount = 50;
-    [SerializeField] private int healthPoints = 1;
 
     private ParticleInstantiator particleEmitter;
 
@@ -17,14 +17,19 @@ public class Block : MonoBehaviour, IDestroyable
         particleEmitter = GetComponent<ParticleInstantiator>();
     }
 
+    public void SetDamagedByPlayer(bool variable)
+    {
+        DamagedByPlayer = variable;
+    }
+
     public void Damage(int damage, Vector2 attackDirection)
     {
-        healthPoints -= damage;
+        HealthPoints -= damage;
 
-        if (healthPoints <= 0)
+        if (HealthPoints <= 0)
         {
             Destroy(gameObject);
-            healthPoints = 0;
+            HealthPoints = 0;
 
             if (attackDirection == null || particleEmitter == null)
             {

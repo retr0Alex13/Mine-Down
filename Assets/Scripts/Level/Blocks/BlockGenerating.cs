@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 [System.Serializable]
 public class BlockType
 {
-    public GameObject blockPrefab;
+    public GameObject[] blockPrefabs;
     public float spawnChance;
 }
 
@@ -133,7 +133,9 @@ public class BlockGenerating : MonoBehaviour
             accumulatedChance += blockType.spawnChance;
             if (randomValue < accumulatedChance)
             {
-                return blockType.blockPrefab;
+                System.Random rand = new System.Random();
+                int randomBlockIndex = rand.Next(0, blockType.blockPrefabs.Length);
+                return blockType.blockPrefabs[randomBlockIndex];
             }
         }
 

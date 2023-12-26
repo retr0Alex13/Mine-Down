@@ -54,7 +54,7 @@ public class PlayerAttack : MonoBehaviour
         {
             if (hit.transform.TryGetComponent(out Block block))
             {
-                block.DamagedByPlayer = true;
+                block.SetDamagedByPlayer(true);
             }
 
             if (hit.transform.TryGetComponent(out IDestroyable destroyable))

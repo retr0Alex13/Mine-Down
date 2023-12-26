@@ -119,8 +119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a22ff54da0bdbe341b6b9ab7f95d7019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <HealthPoints>k__BackingField: 3
   pointsAmount: 50
-  healthPoints: 1
 --- !u!114 &7780667628344654286
 MonoBehaviour:
   m_ObjectHideFlags: 0

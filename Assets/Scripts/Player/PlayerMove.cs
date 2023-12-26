@@ -68,6 +68,13 @@ public class PlayerMove : MonoBehaviour
             {
                 return;
             }
+            if (hit.transform.TryGetComponent(out Block block))
+            {
+                if (block.HealthPoints > 1)
+                {
+                    return;
+                }
+            }
         }
         swipeDirection = direction;
         SetTargetDirection();
