@@ -91,6 +91,16 @@ public class BlockGenerating : MonoBehaviour
                 float randomValue = Random.value;
                 GameObject blockPrefab = ChooseBlockPrefab(randomValue);
 
+                if (row == 1)
+                {
+                    while (blockPrefab.name == "SpikeBlock")
+                    {
+                        randomValue = Random.value;
+                        blockPrefab = ChooseBlockPrefab(randomValue);
+                        Debug.Log("Block Changed");
+                    }
+                }
+
                 // Set dirt block for the path created by DFS
                 if (path.Contains(new Vector2Int(cubeIndex, row)))
                 {
