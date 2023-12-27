@@ -91,6 +91,11 @@ public class BlockGenerating : MonoBehaviour
                 float randomValue = Random.value;
                 GameObject blockPrefab = ChooseBlockPrefab(randomValue);
 
+                if (row <= 2 && blockPrefab.name == "SpikeBlock") // Prevent spike blocks in first and second row
+                {
+                    blockPrefab = dirtBlock;
+                }
+
                 // Set dirt block for the path created by DFS
                 if (path.Contains(new Vector2Int(cubeIndex, row)))
                 {
