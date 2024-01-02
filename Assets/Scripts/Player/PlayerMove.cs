@@ -6,12 +6,22 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private SwipeDetection swipeDetection;
     [SerializeField] private float blockWidth = 1f;
     [SerializeField] private float moveSpeed = 15f;
+    [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private float groundCheckRadius = 0.5f;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask playerLayerMask;
 
+    [Space(10)]
+    [SerializeField] private Transform playerModelTransform;
+    [SerializeField] private Animator animator;
+    [SerializeField] private Transform leftRotationTarget;
+    [SerializeField] private Transform rightRotationTarget;
+    [SerializeField] private Transform defaultRotationTarget;
+
+
     private Rigidbody body;
     private Vector3 targetPosition;
+    private Transform rotationTarget;
     private Vector2 swipeDirection;
 
     public bool IsMoving { get; private set; }
@@ -42,6 +52,31 @@ public class PlayerMove : MonoBehaviour
         {
             IsGrounded = false;
         }
+
+        if (IsMoving)
+        {
+            RotatePlayerModel(rotationTarget);
+        }
+        else
+        {
+            RotatePlayerModel(defaultRotationTarget);
+        }
+    }
+
+    private void RotatePlayerModel(Transform target)
+    {
+        // Перевірка, чи гравець досягнув заданої точки
+        if (playerModelTransform.position.y < target.position.y)
+        {
+            // Обчислення вектору, який вказує в напрямку заданої точки
+            Vector3 directionToTarget = target.position - playerModelTransform.position;
+
+            // Обчислення обертання для повернення гравця у задану точку
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget, Vector3.up);
+
+            // Застосування обертання до модельки гравця
+            playerModelTransform.rotation = Quaternion.Lerp(playerModelTransform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
     }
 
     private void OnDrawGizmos()
@@ -61,29 +96,40 @@ public class PlayerMove : MonoBehaviour
             return;
         }
 
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, direction, out hit, blockWidth))
+        if (IsPathBlocked(direction))
         {
-            if (hit.transform.TryGetComponent(out Wall wall))
-            {
-                return;
-            }
-            if (hit.transform.TryGetComponent(out Block block))
-            {
-                if (block.HealthPoints > 1)
-                {
-                    return;
-                }
-            }
+            return;
         }
+
         swipeDirection = direction;
         SetTargetDirection();
         StartCoroutine(MoveToPoint());
     }
 
+    private bool IsPathBlocked(Vector2 checkDirection)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, checkDirection, out hit, blockWidth))
+        {
+            if (hit.transform.TryGetComponent(out Wall wall))
+            {
+                return true;
+            }
+            if (hit.transform.TryGetComponent(out Block block))
+            {
+                if (block.HealthPoints > 1)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private IEnumerator MoveToPoint()
     {
         IsMoving = true;
+        animator.SetBool("IsRunning", IsMoving);
 
         while (Vector3.Distance(transform.position, targetPosition) > 0.01f)
         {
@@ -93,6 +139,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         IsMoving = false;
+        animator.SetBool("IsRunning", IsMoving);
     }
 
     private void SetTargetDirection()
@@ -100,10 +147,13 @@ public class PlayerMove : MonoBehaviour
         if (swipeDirection == Vector2.left)
         {
             targetPosition = transform.position + new Vector3(-1f, 0f, 0f) * blockWidth;
+            rotationTarget = rightRotationTarget;
         }
         else if (swipeDirection == Vector2.right)
         {
             targetPosition = transform.position + new Vector3(1f, 0f, 0f) * blockWidth;
+            rotationTarget = leftRotationTarget;
         }
     }
+
 }
