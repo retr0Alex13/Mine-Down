@@ -47,10 +47,12 @@ public class PlayerMove : MonoBehaviour
         if (Physics.CheckSphere(groundCheck.position, groundCheckRadius, playerLayerMask))
         {
             IsGrounded = true;
+            animator.SetBool("IsGrounded", IsGrounded);
         }
         else
         {
             IsGrounded = false;
+            animator.SetBool("IsGrounded", IsGrounded);
         }
 
         if (IsMoving)
@@ -117,7 +119,7 @@ public class PlayerMove : MonoBehaviour
             }
             if (hit.transform.TryGetComponent(out Block block))
             {
-                if (block.HealthPoints > 1)
+                if (block.HealthPoints > 0)
                 {
                     return true;
                 }

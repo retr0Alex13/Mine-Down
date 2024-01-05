@@ -11,6 +11,9 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private float attackRange = 1f;
 
+    [SerializeField]
+    private Animator playerAnimator;
+
     private Vector2 attackDirection;
     private PlayerMove playerMove;
 
@@ -47,7 +50,7 @@ public class PlayerAttack : MonoBehaviour
         Attack();
     }
 
-    private void Attack()
+    public void Attack()
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, attackDirection, out hit, attackRange))
