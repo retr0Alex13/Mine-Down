@@ -8,6 +8,11 @@ public class CollapseController : MonoBehaviour
 
     private Vector3 spawnPosition;
 
+    private void Start()
+    {
+        SoundManager.instance.Play("Collapse", transform);
+    }
+
     private void OnEnable()
     {
         OnLevelStartTrigger.OnLevelStartTriggered += HandleCollapsePosition;
