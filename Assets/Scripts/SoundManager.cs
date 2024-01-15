@@ -53,7 +53,7 @@ public class SoundManager : MonoBehaviour
         // Add this part after having a theme song
         // Play('Theme');
     }
-    public void Play(string name)
+    public void Play(string name, bool randomPitch)
     {
         Sound sound = Array.Find(sounds, s => s.name == name);
 
@@ -70,7 +70,10 @@ public class SoundManager : MonoBehaviour
         {
             sound.source.clip = sound.clips[0];
         }
-        sound.source.pitch = UnityEngine.Random.Range(1f, 1.5f);
+        if (randomPitch)
+        {
+            sound.source.pitch = UnityEngine.Random.Range(1f, 1.5f);
+        }
         int clipIndex = Array.IndexOf(sound.clips, sound.source.clip);
 
         if (!CanPlaySound(sound, clipIndex)) return;

@@ -389,6 +389,22 @@ MonoBehaviour:
     isLoop: 1
     hasCooldown: 0
     source: {fileID: 0}
+  - name: PlayerLand
+    clips:
+    - {fileID: 8300000, guid: 151a54c8e6d97c04c8bfecc6b01defc8, type: 3}
+    volume: 0.5
+    pitch: 1
+    isLoop: 0
+    hasCooldown: 0
+    source: {fileID: 0}
+  - name: PlayerMove
+    clips:
+    - {fileID: 8300000, guid: 24bb01ec9ef7b4547ab30dd6e13b1653, type: 3}
+    volume: 0.5
+    pitch: 1
+    isLoop: 0
+    hasCooldown: 0
+    source: {fileID: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1734,13 +1750,14 @@ GameObject:
   - component: {fileID: 1975887506}
   - component: {fileID: 1975887505}
   - component: {fileID: 1975887504}
+  - component: {fileID: 1975887511}
   - component: {fileID: 1975887502}
   - component: {fileID: 1975887508}
   - component: {fileID: 1975887501}
   - component: {fileID: 1975887507}
   - component: {fileID: 1975887510}
   - component: {fileID: 1975887509}
-  - component: {fileID: 1975887511}
+  - component: {fileID: 1975887512}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -1939,6 +1956,18 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1975887500}
   m_Enabled: 1
+--- !u!114 &1975887512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1975887500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ffa0f1e841d56b48926c01a83d36d90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2043449437
 GameObject:
   m_ObjectHideFlags: 0

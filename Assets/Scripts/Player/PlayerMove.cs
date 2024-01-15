@@ -106,6 +106,7 @@ public class PlayerMove : MonoBehaviour
         swipeDirection = direction;
         SetTargetDirection();
         StartCoroutine(MoveToPoint());
+        SoundManager.instance.Play("PlayerMove", false);
     }
 
     private bool IsPathBlocked(Vector2 checkDirection)
