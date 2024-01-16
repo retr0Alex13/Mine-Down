@@ -952,6 +952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreView: {fileID: 897197553}
+  smoothTime: 0.5
 --- !u!1001 &789849536
 PrefabInstance:
   m_ObjectHideFlags: 0

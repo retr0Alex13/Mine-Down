@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Block : MonoBehaviour, IDestroyable
 {
+    public event Action OnBlockDamaged;
+
     public bool DamagedByPlayer { get; private set; }
     [field: SerializeField] public int HealthPoints { get; private set; }
 
@@ -43,5 +45,6 @@ public class Block : MonoBehaviour, IDestroyable
             }
             OnOreCollected?.Invoke(pointsAmount);
         }
+        OnBlockDamaged?.Invoke();
     }
 }

@@ -63,6 +63,7 @@ public class PlayerAttack : MonoBehaviour
             if (hit.transform.TryGetComponent(out IDestroyable destroyable))
             {
                 destroyable.Damage(attackAmount, attackDirection);
+
                 SoundManager.instance.Play("PickAxe_Mining", true);
             }
         }

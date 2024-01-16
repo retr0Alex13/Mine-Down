@@ -76,7 +76,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
-  m_ExitTime: 0.8469388
+  m_ExitTime: 0
   m_HasExitTime: 0
   m_HasFixedDuration: 0
   m_InterruptionSource: 0
@@ -91,6 +91,12 @@ AnimatorController:
   m_Name: Mini Chibi Animator Controller
   serializedVersion: 5
   m_AnimatorParameters:
+  - m_Name: Mining
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   - m_Name: IsRunning
     m_Type: 4
     m_DefaultFloat: 0
@@ -99,12 +105,6 @@ AnimatorController:
     m_Controller: {fileID: 0}
   - m_Name: IsGrounded
     m_Type: 4
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: IsMining
-    m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -161,16 +161,16 @@ AnimatorStateMachine:
     m_Position: {x: 350, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8123820879077211852}
-    m_Position: {x: 650, y: 230, z: 0}
+    m_Position: {x: 950, y: 220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6907493303148494439}
     m_Position: {x: 350, y: 220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7310332284986300523}
-    m_Position: {x: 650, y: 290, z: 0}
+    m_Position: {x: 950, y: 280, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6173062611034179382}
-    m_Position: {x: 650, y: 350, z: 0}
+    m_Position: {x: 950, y: 340, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5163073888937773645}
     m_Position: {x: 630, y: 120, z: 0}
@@ -288,7 +288,7 @@ AnimatorStateTransition:
   m_ExitTime: 0.60526323
   m_HasExitTime: 0
   m_HasFixedDuration: 0
-  m_InterruptionSource: 0
+  m_InterruptionSource: 1
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
 --- !u!1102 &8123820879077211852
