@@ -1669,6 +1669,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c46ffddb8a450b4a8fc04b38e3d8abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelSettings:
+    <LevelSpacing>k__BackingField: 20
+    <LevelClearDelay>k__BackingField: 2
+    <CubesPerRow>k__BackingField: 4
+    <RowCount>k__BackingField: 15
+    <CubesPerLevel>k__BackingField: 1
+    <RowsPerLevel>k__BackingField: 2
+    <MaxCubesOnRow>k__BackingField: 4
   blockTypes:
   - blockPrefabs:
     - {fileID: 8971236062110258131, guid: 6569c37f017613748a4c4662a4d62bb5, type: 3}
@@ -1702,13 +1710,6 @@ MonoBehaviour:
   blockParent: {fileID: 2102214685}
   startLevelCollider: {fileID: 279898940}
   endLevelCollider: {fileID: 1628923299}
-  levelSpacing: 15
-  levelClearDelay: 2
-  cubesPerRow: 4
-  rowsCount: 15
-  addRowsPerLevel: 10
-  addCubesPerLevel: 1
-  maxCubesOnRow: 4
 --- !u!1 &1887277664
 GameObject:
   m_ObjectHideFlags: 0
