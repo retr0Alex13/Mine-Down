@@ -2238,28 +2238,28 @@ MonoBehaviour:
   blockTypes:
   - blockPrefabs:
     - {fileID: 8971236062110258131, guid: 6569c37f017613748a4c4662a4d62bb5, type: 3}
+    spawnChance: 0.25
+  - blockPrefabs:
+    - {fileID: 5578439397541442044, guid: d379abf3316313f42855c2aaca8c016d, type: 3}
     spawnChance: 0.1
   - blockPrefabs:
-    - {fileID: 1112001855627762644, guid: 318625a28779cab4e8a1f61eac0d3353, type: 3}
-    - {fileID: 7398395468969162243, guid: 4eb1e3b9debfefb4ea1f11c2817dddcf, type: 3}
-    spawnChance: 0.05
-  - blockPrefabs:
-    - {fileID: 486708175488726358, guid: cbd5d8fdd5ce166419eac8dfafedc2dd, type: 3}
-    - {fileID: 6450037762132572065, guid: d82330a4256015a4697a96c67ad07bd8, type: 3}
+    - {fileID: 4225756335917880555, guid: 83e3a997dc87c9a418f4f75d6787fd80, type: 3}
     spawnChance: 0.1
+  - blockPrefabs:
+    - {fileID: 1112001855627762644, guid: c9d03d4e7a5537d41a6301f43ac82a91, type: 3}
+    spawnChance: 0.3
   - blockPrefabs:
     - {fileID: 486708175488726358, guid: abb894ac97dca764c8a2cdc1299dbe0a, type: 3}
     - {fileID: 3220671584038251656, guid: 2263cb0c1dec9d4408fdfe111b0d0fdc, type: 3}
     spawnChance: 0.1
   - blockPrefabs:
-    - {fileID: 1112001855627762644, guid: c9d03d4e7a5537d41a6301f43ac82a91, type: 3}
-    spawnChance: 0.15
+    - {fileID: 486708175488726358, guid: cbd5d8fdd5ce166419eac8dfafedc2dd, type: 3}
+    - {fileID: 6450037762132572065, guid: d82330a4256015a4697a96c67ad07bd8, type: 3}
+    spawnChance: 0.1
   - blockPrefabs:
-    - {fileID: 5578439397541442044, guid: d379abf3316313f42855c2aaca8c016d, type: 3}
-    spawnChance: 0.08
-  - blockPrefabs:
-    - {fileID: 4225756335917880555, guid: 83e3a997dc87c9a418f4f75d6787fd80, type: 3}
-    spawnChance: 0.04
+    - {fileID: 1112001855627762644, guid: 318625a28779cab4e8a1f61eac0d3353, type: 3}
+    - {fileID: 7398395468969162243, guid: 4eb1e3b9debfefb4ea1f11c2817dddcf, type: 3}
+    spawnChance: 0.05
   wallBlock: {fileID: 4225756335917880555, guid: 83e3a997dc87c9a418f4f75d6787fd80,
     type: 3}
   dirtBlock: {fileID: 3384221456907895875, guid: 533999d98b16b3b4386cd7af63375e67,

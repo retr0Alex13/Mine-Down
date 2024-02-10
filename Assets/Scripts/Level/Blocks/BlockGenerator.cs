@@ -131,22 +131,34 @@ public class BlockGenerator : MonoBehaviour
 
     private GameObject ChooseBlockPrefab(float randomValue)
     {
-        float accumulatedChance = 0f;
+        float totalSpawnChance = 0f;
 
+        // Calculate total spawn chance for normalization
         foreach (var blockType in blockTypes)
         {
-            accumulatedChance += blockType.spawnChance;
-            if (randomValue < accumulatedChance)
+            totalSpawnChance += blockType.spawnChance;
+        }
+
+        float normalizedRandomValue = randomValue * totalSpawnChance;
+
+        // Choose a block based on the weighted randomization
+        foreach (var blockType in blockTypes)
+        {
+            if (normalizedRandomValue < blockType.spawnChance)
             {
+                // Randomly select a block prefab from the chosen block type
                 System.Random rand = new System.Random();
                 int randomBlockIndex = rand.Next(0, blockType.blockPrefabs.Length);
                 return blockType.blockPrefabs[randomBlockIndex];
             }
+
+            normalizedRandomValue -= blockType.spawnChance;
         }
 
         // Return default dirt block
         return dirtBlock;
     }
+
 
     private void SetNextLevelColliders()
     {
