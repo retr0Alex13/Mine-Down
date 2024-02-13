@@ -33,6 +33,8 @@ public class BlockGenerator : MonoBehaviour
 
     private DepthFirstSearch dfs;
 
+    private bool isFirstLevelStart = true;
+
     private void Start()
     {
         Application.targetFrameRate = 60;
@@ -116,6 +118,8 @@ public class BlockGenerator : MonoBehaviour
 
         SetCubesAndRows();
         SetNextLevelColliders();
+
+        isFirstLevelStart = false;
     }
 
     private bool IsWallSpawnPoint(int cubeIndex)
@@ -167,8 +171,16 @@ public class BlockGenerator : MonoBehaviour
 
         Vector3 lastBlockPosition = nextLevelList[nextLevelList.Count - 1].transform.position;
 
-        SetTriggerCollider(endLevelCollider, lastBlockPosition, colliderOffset, colliderWidth);
-        SetTriggerCollider(startLevelCollider, blockSpawnPosition.position, 0f, colliderWidth);
+        if (isFirstLevelStart)
+        {
+            SetTriggerCollider(endLevelCollider, lastBlockPosition, colliderOffset, colliderWidth);
+            return;
+        }
+        else
+        {
+            SetTriggerCollider(endLevelCollider, lastBlockPosition, colliderOffset, colliderWidth);
+            SetTriggerCollider(startLevelCollider, blockSpawnPosition.position, 0f, colliderWidth);
+        }
     }
 
 
