@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MoveDown : MonoBehaviour
 {
+    [SerializeField] private float speed = 1f;
     [SerializeField] private float maxSpeed = 4f;
     [SerializeField] private float speedMultiplier = 0.1f;
-    private float speed = 1f;
     private Rigidbody rigidBody;
 
     private void Awake()

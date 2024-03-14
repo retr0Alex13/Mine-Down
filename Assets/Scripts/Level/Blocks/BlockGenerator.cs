@@ -8,6 +8,10 @@ public class BlockType
 {
     public GameObject[] blockPrefabs;
     public float spawnChance;
+
+    [Tooltip("How often block will appear with each level")]
+    public float spawnChanceMultiplier;
+    public float maxSpawnChance;
 }
 
 public class BlockGenerator : MonoBehaviour
@@ -118,8 +122,22 @@ public class BlockGenerator : MonoBehaviour
 
         SetCubesAndRows();
         SetNextLevelColliders();
+        IncreaseBlockSpawnChance();
 
         isFirstLevelStart = false;
+    }
+
+    private void IncreaseBlockSpawnChance()
+    {
+        foreach (BlockType blockType in blockTypes)
+        {
+            if (blockType.spawnChance >= blockType.maxSpawnChance)
+            {
+                blockType.spawnChance = blockType.maxSpawnChance;
+                continue;
+            }
+            blockType.spawnChance += blockType.spawnChanceMultiplier;
+        }
     }
 
     private bool IsWallSpawnPoint(int cubeIndex)

@@ -4,7 +4,6 @@ using UnityEngine;
 public class Block : MonoBehaviour, IDestroyable
 {
     public event Action OnBlockDamaged;
-
     public bool DamagedByPlayer { get; private set; }
     [field: SerializeField] public int HealthPoints { get; private set; }
 
