@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SwipeDetection : MonoBehaviour
@@ -14,6 +15,8 @@ public class SwipeDetection : MonoBehaviour
     private float maximumTime = 1f;
     [SerializeField, Range(0f, 1f)]
     private float directionThreshold = 0.9f;
+    [SerializeField]
+    private GameObject trail;
 
     private InputManager inputManager;
 
@@ -22,6 +25,8 @@ public class SwipeDetection : MonoBehaviour
 
     private Vector2 endPosition;
     private float endTime;
+
+    private Coroutine trailCoroutine;
 
     private void Awake()
     {
@@ -44,11 +49,24 @@ public class SwipeDetection : MonoBehaviour
     {
         startPosition = position;
         startTime = time;
+        trail.SetActive(true);
+        trail.transform.position = new Vector3(position.x, position.y, trail.transform.position.z);
+        trailCoroutine = StartCoroutine(Trail());
     }
 
+    private IEnumerator Trail()
+    {
+        while (true) 
+        {
+            trail.transform.position = new Vector3(inputManager.PrimaryPosition().x, inputManager.PrimaryPosition().y, trail.transform.position.z);
+            yield return null;
+        }
+    }
 
     private void SwipeEnd(Vector2 position, float time)
     {
+        trail.SetActive(false);
+        StopCoroutine(trailCoroutine);
         endPosition = position;
         endTime = time;
         DetectSwipe();
