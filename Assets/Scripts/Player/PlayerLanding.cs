@@ -1,10 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class PlayerLanding : MonoBehaviour
 {
-    PlayerMove playerMove;
+    public event Action OnPlayerLanded;
+
+    private PlayerMove playerMove;
+    private Vector3 initialPlayerPosition;
+
+    private bool isFirstLanded;
+    public bool IsFirstLanded => isFirstLanded;
 
     private void Awake()
     {
@@ -20,6 +25,19 @@ public class PlayerLanding : MonoBehaviour
         if (collision.transform.TryGetComponent(out Block block) || collision.transform.TryGetComponent(out Wall wall))
         {
             SoundManager.instance.Play("PlayerLand", false);
+            if (isFirstLanded)
+            {
+                return;
+            }
+            initialPlayerPosition = transform.position;
+            isFirstLanded = true;
+            OnPlayerLanded?.Invoke();
+            Debug.Log(initialPlayerPosition);
         }
+    }
+
+    public Vector3 GetInitialPlayerPosition()
+    {
+        return initialPlayerPosition;
     }
 }

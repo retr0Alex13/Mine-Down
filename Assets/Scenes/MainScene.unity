@@ -5913,7 +5913,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 6.675659}
+  m_AnchoredPosition: {x: 0, y: 6.6757812}
   m_SizeDelta: {x: -62.712646, y: -13.337036}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &404988422
@@ -6647,6 +6647,7 @@ GameObject:
   - component: {fileID: 442925739}
   - component: {fileID: 442925741}
   - component: {fileID: 442925740}
+  - component: {fileID: 442925742}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -6712,6 +6713,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 442925738}
   m_CullTransparentMesh: 1
+--- !u!95 &442925742
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442925738}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c5d97caa2a4b1104f87ed3990127b2f3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &445160564
 GameObject:
   m_ObjectHideFlags: 0
@@ -17478,6 +17500,7 @@ GameObject:
   - component: {fileID: 1236458668}
   - component: {fileID: 1236458667}
   - component: {fileID: 1236458666}
+  - component: {fileID: 1236458670}
   m_Layer: 5
   m_Name: Menu Canvas
   m_TagString: Untagged
@@ -17569,6 +17592,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1236458670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236458665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0488a0d9bbbd39142b4424d79dc10c18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuAnimator: {fileID: 442925742}
+  player: {fileID: 1975887512}
 --- !u!1001 &1241097013
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27454,6 +27491,11 @@ MonoBehaviour:
     spawnChanceMultiplier: 0.1
     maxSpawnChance: 1
   - blockPrefabs:
+    - {fileID: 6193763712546377210, guid: 7160a7bce29f409449f756f93668142a, type: 3}
+    spawnChance: 0.8
+    spawnChanceMultiplier: 0.05
+    maxSpawnChance: 1
+  - blockPrefabs:
     - {fileID: 486708175488726358, guid: abb894ac97dca764c8a2cdc1299dbe0a, type: 3}
     - {fileID: 3220671584038251656, guid: 2263cb0c1dec9d4408fdfe111b0d0fdc, type: 3}
     spawnChance: 0.6
@@ -27483,7 +27525,7 @@ MonoBehaviour:
     maxSpawnChance: 0.1
   - blockPrefabs:
     - {fileID: 1112001855627762644, guid: c9d03d4e7a5537d41a6301f43ac82a91, type: 3}
-    spawnChance: 0.1
+    spawnChance: 0.2
     spawnChanceMultiplier: 0.05
     maxSpawnChance: 0.4
   wallBlock: {fileID: 4225756335917880555, guid: 83e3a997dc87c9a418f4f75d6787fd80,
