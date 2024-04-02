@@ -32,7 +32,6 @@ public class PlayerLanding : MonoBehaviour
             initialPlayerPosition = transform.position;
             isFirstLanded = true;
             OnPlayerLanded?.Invoke();
-            Debug.Log(initialPlayerPosition);
         }
     }
 
