@@ -18246,6 +18246,7 @@ GameObject:
   - component: {fileID: 1236458667}
   - component: {fileID: 1236458666}
   - component: {fileID: 1236458670}
+  - component: {fileID: 1236458671}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -18350,10 +18351,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0488a0d9bbbd39142b4424d79dc10c18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menuView: {fileID: 1236458671}
+  player: {fileID: 1975887512}
+--- !u!114 &1236458671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236458665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c114c61d9ff21f440a05738b5854fb2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   menuAnimator: {fileID: 442925742}
   hudAnimator: {fileID: 852944237}
   pauseButton: {fileID: 1716173525}
-  player: {fileID: 1975887512}
+  menuPresenter: {fileID: 1236458670}
 --- !u!1001 &1241097013
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,65 +1,57 @@
 using UnityEngine;
-using UnityEngine.UI;
 
-public class MenuPresenter : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private Animator menuAnimator;
-    [SerializeField] private Animator hudAnimator;
-    [SerializeField] private Button pauseButton;
-    [SerializeField] private PlayerLanding player;
-
-    private Vector3 initialPlayerPosition;
-    private bool shouldCheckMenuAndHudVisibility = true;
-    private const float initialPositionTolerance = 0.1f;
-
-    private void Awake()
+    public class MenuPresenter : MonoBehaviour
     {
-        player.OnPlayerLanded += GetInitialPlayerPosition;
-        pauseButton.onClick.AddListener(ToggleMenuAndHud);
-    }
+        [SerializeField] private MenuView menuView;
+        [SerializeField] private PlayerLanding player;
 
-    private void OnDestroy()
-    {
-        player.OnPlayerLanded -= GetInitialPlayerPosition;
-    }
+        private PlayerModel playerModel;
+        private const float initialPositionTolerance = 0.1f;
+        private bool shouldCheckMenuAndHudVisibility = true;
 
-    private void Update()
-    {
-        if (shouldCheckMenuAndHudVisibility)
-            CheckMenuAndHudVisibility();
-    }
-
-    private void CheckMenuAndHudVisibility()
-    {
-        if (!player.IsFirstLanded)
-            return;
-
-        float positionDifference = Mathf.Abs(player.transform.position.y - initialPlayerPosition.y);
-        if (positionDifference > initialPositionTolerance)
+        private void Awake()
         {
-            Debug.Log(player.transform.position);
-            SetMenuAndHudVisibility(true, true);
-            shouldCheckMenuAndHudVisibility = false;
+            playerModel = new PlayerModel();
+            player.OnPlayerLanded += HandlePlayerLanded;
         }
-    }
 
-    public void ToggleMenuAndHud()
-    {
-        bool menuVisibility = !menuAnimator.GetBool("IsMenuClosed");
-        bool hudVisibility = !hudAnimator.GetBool("IsHudOpen");
-        SetMenuAndHudVisibility(menuVisibility, hudVisibility);
-        shouldCheckMenuAndHudVisibility = false;
-    }
+        private void OnDestroy()
+        {
+            player.OnPlayerLanded -= HandlePlayerLanded;
+        }
 
-    private void SetMenuAndHudVisibility(bool menuVisibility, bool hudVisibility)
-    {
-        menuAnimator.SetBool("IsMenuClosed", menuVisibility);
-        hudAnimator.SetBool("IsHudOpen", hudVisibility);
-    }
+        private void Update()
+        {
+            if (shouldCheckMenuAndHudVisibility && playerModel.IsFirstLanded)
+                CheckPlayerPosition();
+        }
 
-    private void GetInitialPlayerPosition()
-    {
-        initialPlayerPosition = player.GetInitialPlayerPosition();
-        shouldCheckMenuAndHudVisibility = true;
+        private void CheckPlayerPosition()
+        {
+            float positionDifference = playerModel.GetPositionDifference(player.transform.position);
+            if (positionDifference > initialPositionTolerance)
+            {
+                menuView.SetMenuVisibility(true);
+                menuView.SetHudVisibility(true);
+                shouldCheckMenuAndHudVisibility = false;
+            }
+        }
+
+        public void ToggleMenuAndHud()
+        {
+            shouldCheckMenuAndHudVisibility = false;
+            bool menuVisibility = !menuView.GetMenuVisibility();
+            bool hudVisibility = !menuView.GetHudVisibility();
+            menuView.SetMenuVisibility(menuVisibility);
+            menuView.SetHudVisibility(hudVisibility);
+        }
+
+        private void HandlePlayerLanded()
+        {
+            playerModel.SetInitialPosition(player.GetInitialPlayerPosition());
+            shouldCheckMenuAndHudVisibility = true;
+        }
     }
 }
