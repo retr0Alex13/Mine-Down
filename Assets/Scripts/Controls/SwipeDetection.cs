@@ -47,6 +47,10 @@ public class SwipeDetection : MonoBehaviour
 
     private void SwipeStart(Vector2 position, float time)
     {
+        if (GameManager.IsGamePaused)
+        {
+            return;
+        }
         startPosition = position;
         startTime = time;
         trail.SetActive(true);
@@ -74,6 +78,7 @@ public class SwipeDetection : MonoBehaviour
 
     private void DetectSwipe()
     {
+
         if (Vector3.Distance(startPosition, endPosition) >= minimumDistance &&
             (endTime - startTime) <= maximumTime)
         {

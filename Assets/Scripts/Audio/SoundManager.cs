@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour
 {
     private static SoundManager _instance;
     public Sound[] sounds;
+    public AudioMixerGroup audioMixer;
     private static Dictionary<string, float> soundTimerDictionary;
 
     public static SoundManager instance
@@ -38,6 +40,7 @@ public class SoundManager : MonoBehaviour
                 sound.source.volume = sound.volume;
                 sound.source.pitch = sound.pitch;
                 sound.source.loop = sound.isLoop;
+                sound.source.outputAudioMixerGroup = audioMixer;
             }
 
             if (sound.hasCooldown)
@@ -117,6 +120,7 @@ public class SoundManager : MonoBehaviour
         audioSource.spatialBlend = 1f;
         audioSource.rolloffMode = AudioRolloffMode.Linear;
         audioSource.maxDistance = 10f;
+        audioSource.outputAudioMixerGroup = audioMixer;
         //audioSource.minDistance = 0f;
 
         audioSource.Play();
