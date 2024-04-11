@@ -8,6 +8,7 @@ namespace UI
         [SerializeField] private Animator menuAnimator;
         [SerializeField] private Animator hudAnimator;
         [SerializeField] private Button pauseButton;
+        [SerializeField] private Button continueButton;
 
         [SerializeField] private MenuPresenter menuPresenter;
 
@@ -24,6 +25,11 @@ namespace UI
         public void SetHudVisibility(bool isVisible)
         {
             hudAnimator.SetBool("IsHudOpen", isVisible);
+        }
+
+        public void SetContinueButtonVisibility(bool isVisible)
+        {
+            continueButton.gameObject.SetActive(isVisible);
         }
 
         public bool GetMenuVisibility()

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -5,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private AudioMixer audioMixer;
+
+    public float RestartDelay { get; private set; } = 3f;
     public static bool IsGamePaused { get; private set; }
 
     public static GameManager Instance;
@@ -39,6 +42,12 @@ public class GameManager : MonoBehaviour
     {
         ResumeGame();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public IEnumerator RestartLevelWithDelay()
+    {
+        yield return new WaitForSeconds(RestartDelay);
+        RestartLevel();
     }
 
     public void SetVolume(float volume)

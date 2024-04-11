@@ -4,6 +4,7 @@ namespace UI
 {
     public class MenuPresenter : MonoBehaviour
     {
+        // Visualize restart delay
         [SerializeField] private MenuView menuView;
         [SerializeField] private PlayerLanding player;
 
@@ -14,16 +15,24 @@ namespace UI
         private void Awake()
         {
             playerModel = new PlayerModel();
+
             player.OnPlayerLanded += HandlePlayerLanded;
+            PlayerHealth.OnPlayerDie += playerModel.SetPlayerDead;
         }
 
         private void OnDestroy()
         {
             player.OnPlayerLanded -= HandlePlayerLanded;
+            PlayerHealth.OnPlayerDie -= playerModel.SetPlayerDead;
         }
 
         private void Update()
         {
+            if (playerModel.IsDead)
+            {
+                menuView.SetContinueButtonVisibility(false);
+                menuView.SetMenuVisibility(false);
+            }
             if (shouldCheckMenuAndHudVisibility && playerModel.IsFirstLanded)
                 CheckPlayerPosition();
         }
@@ -42,8 +51,10 @@ namespace UI
         public void ToggleMenuAndHud()
         {
             shouldCheckMenuAndHudVisibility = false;
+
             bool menuVisibility = !menuView.GetMenuVisibility();
             bool hudVisibility = !menuView.GetHudVisibility();
+
             menuView.SetMenuVisibility(menuVisibility);
             menuView.SetHudVisibility(hudVisibility);
         }

@@ -28,5 +28,7 @@ public class PlayerDeath : MonoBehaviour
         playerRigidbody.AddForce(Vector3.back * 5, ForceMode.Impulse);
 
         playerAnimator.SetTrigger("IsDead");
+
+        SoundManager.instance.Play("DeathSound", false);
     }
 }
