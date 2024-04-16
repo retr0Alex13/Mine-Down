@@ -17,22 +17,23 @@ namespace UI
             playerModel = new PlayerModel();
 
             player.OnPlayerLanded += HandlePlayerLanded;
-            PlayerHealth.OnPlayerDie += playerModel.SetPlayerDead;
+            //PlayerHealth.OnPlayerDie += playerModel.SetPlayerDead;
         }
 
         private void OnDestroy()
         {
             player.OnPlayerLanded -= HandlePlayerLanded;
-            PlayerHealth.OnPlayerDie -= playerModel.SetPlayerDead;
+            //PlayerHealth.OnPlayerDie -= playerModel.SetPlayerDead;
         }
 
         private void Update()
         {
-            if (playerModel.IsDead)
-            {
-                menuView.SetContinueButtonVisibility(false);
-                menuView.SetMenuVisibility(false);
-            }
+            //if (playerModel.IsDead)
+            //{
+            //    menuView.SetContinueButtonVisibility(false);
+            //    menuView.SetMenuVisibility(false);
+            //    menuView.SetHudVisibility(false);
+            //}
             if (shouldCheckMenuAndHudVisibility && playerModel.IsFirstLanded)
                 CheckPlayerPosition();
         }

@@ -6,9 +6,9 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private AudioMixer audioMixer;
-
-    public float RestartDelay { get; private set; } = 3f;
+    [SerializeField] private ScoreController scoreController;
     public static bool IsGamePaused { get; private set; }
+    public int HighScore { get; private set; }
 
     public static GameManager Instance;
 
@@ -44,11 +44,16 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public IEnumerator RestartLevelWithDelay()
-    {
-        yield return new WaitForSeconds(RestartDelay);
-        RestartLevel();
-    }
+    //private void ProcessRestartLevel()
+    //{
+    //    StartCoroutine(RestartLevelWithDelay());
+    //}
+
+    //public IEnumerator RestartLevelWithDelay()
+    //{
+    //    yield return new WaitForSeconds(RestartDelay);
+    //    RestartLevel();
+    //}
 
     public void SetVolume(float volume)
     {
@@ -68,5 +73,10 @@ public class GameManager : MonoBehaviour
         {
             SetVolume(0f);
         }
+    }
+
+    public void SetHighScoreAsPlayers()
+    {
+        HighScore = scoreController.Score;
     }
 }
