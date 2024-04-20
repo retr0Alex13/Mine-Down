@@ -12,28 +12,26 @@ namespace UI
         private const float initialPositionTolerance = 0.1f;
         private bool shouldCheckMenuAndHudVisibility = true;
 
+
+        public MenuView GetMenuView()
+        {
+            return menuView;
+        }
+
         private void Awake()
         {
             playerModel = new PlayerModel();
 
             player.OnPlayerLanded += HandlePlayerLanded;
-            //PlayerHealth.OnPlayerDie += playerModel.SetPlayerDead;
         }
 
         private void OnDestroy()
         {
             player.OnPlayerLanded -= HandlePlayerLanded;
-            //PlayerHealth.OnPlayerDie -= playerModel.SetPlayerDead;
         }
 
         private void Update()
         {
-            //if (playerModel.IsDead)
-            //{
-            //    menuView.SetContinueButtonVisibility(false);
-            //    menuView.SetMenuVisibility(false);
-            //    menuView.SetHudVisibility(false);
-            //}
             if (shouldCheckMenuAndHudVisibility && playerModel.IsFirstLanded)
                 CheckPlayerPosition();
         }

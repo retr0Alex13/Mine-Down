@@ -1,20 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
 public class EndGameMenuController : MonoBehaviour
 {
-    // Play sounds when counting score
-    // Play sounds when showing new high score
     [SerializeField] private float showMenuDelay = 1f;
     [SerializeField] private float showNewHighScoreDelay = 0.1f;
+    [SerializeField] private MenuPresenter menuPresenter;
     [SerializeField] private ScoreController playerScore;
     [SerializeField] private ScoreView highScoreView;
     [SerializeField] private ScoreView scoreView;
 
     private Animator animator;
-
 
     private void Awake()
     {
@@ -61,6 +60,7 @@ public class EndGameMenuController : MonoBehaviour
         while (currentScore < scoreAmount)
         {
             currentScore = Mathf.CeilToInt(Mathf.Lerp(currentScore, scoreAmount, 30f * Time.deltaTime));
+            SoundManager.instance.Play("AddPoint", false);
             scoreView.DisplayScore(currentScore);
             yield return null;
         }
@@ -77,6 +77,9 @@ public class EndGameMenuController : MonoBehaviour
         {
             GameManager.Instance.SetHighScoreAsPlayers();
             StartCoroutine(SetNewHighScore());
+            menuPresenter.ToggleMenuAndHud();
+            menuPresenter.GetMenuView().SetContinueButtonVisibility(false);
+            GameManager.Instance.ProcessRestartLevel();
         }
     }
 
@@ -84,6 +87,6 @@ public class EndGameMenuController : MonoBehaviour
     {
         yield return new WaitForSeconds(showNewHighScoreDelay);
         highScoreView.DisplayScore(playerScore.Score);
-        SoundManager.instance.Play("HighScore", false);
+        SoundManager.instance.Play("HighScore", true);
     }
 }

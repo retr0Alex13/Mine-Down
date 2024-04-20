@@ -32,6 +32,6 @@ public class CollapseController : MonoBehaviour
     private IEnumerator EnableCollapse()
     {
         yield return new WaitForSeconds(spawnCollapseDelay);
-        transform.position = new Vector3(spawnPosition.x, spawnPosition.y + collapseOffsetSpawn);
+        transform.position = new Vector3(spawnPosition.x, spawnPosition.y + collapseOffsetSpawn, -0.5f);
     }
 }

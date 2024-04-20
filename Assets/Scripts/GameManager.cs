@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
+    private const float RestartDelay = 2f;
+
     private void Awake()
     {
         if (Instance == null)
@@ -38,22 +40,22 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    public void ProcessRestartLevel()
+    {
+        StartCoroutine(RestartLevelWithDelay());
+    }
+
+    private IEnumerator RestartLevelWithDelay()
+    {
+        yield return new WaitForSeconds(RestartDelay);
+        RestartLevel();
+    }
+
     public void RestartLevel()
     {
         ResumeGame();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
-    //private void ProcessRestartLevel()
-    //{
-    //    StartCoroutine(RestartLevelWithDelay());
-    //}
-
-    //public IEnumerator RestartLevelWithDelay()
-    //{
-    //    yield return new WaitForSeconds(RestartDelay);
-    //    RestartLevel();
-    //}
 
     public void SetVolume(float volume)
     {
