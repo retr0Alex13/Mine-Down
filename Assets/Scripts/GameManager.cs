@@ -6,13 +6,15 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private AudioMixer audioMixer;
-    [SerializeField] private ScoreController scoreController;
+    private ScoreController scoreController;
     public static bool IsGamePaused { get; private set; }
     public int HighScore { get; private set; }
 
     public static GameManager Instance;
 
-    private const float RestartDelay = 2f;
+    private const float RestartDelay = 3f;
+
+    private Coroutine restartLevelCoroutine;
 
     private void Awake()
     {
@@ -24,6 +26,38 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        DontDestroyOnLoad(this.gameObject);
+
+        SceneManager.sceneLoaded += CancelLevelRestart;
+        SceneManager.sceneLoaded += (scene, mode) =>
+        {
+            scoreController = FindObjectOfType<ScoreController>();
+        };
+
+        LoadHighScore();
+    }
+
+    private void LoadHighScore()
+    {
+        if (PlayerPrefs.GetInt("HighScore") > 0)
+        {
+            HighScore = PlayerPrefs.GetInt("HighScore");
+        }
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= CancelLevelRestart;
+    }
+
+    private void CancelLevelRestart(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        if (restartLevelCoroutine == null)
+        {
+            return;
+        }
+        StopCoroutine(restartLevelCoroutine);
     }
 
     public void PauseGame()
@@ -42,7 +76,7 @@ public class GameManager : MonoBehaviour
 
     public void ProcessRestartLevel()
     {
-        StartCoroutine(RestartLevelWithDelay());
+        restartLevelCoroutine = StartCoroutine(RestartLevelWithDelay());
     }
 
     private IEnumerator RestartLevelWithDelay()
@@ -80,5 +114,6 @@ public class GameManager : MonoBehaviour
     public void SetHighScoreAsPlayers()
     {
         HighScore = scoreController.Score;
+        PlayerPrefs.SetInt("HighScore", HighScore);
     }
 }

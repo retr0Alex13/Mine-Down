@@ -1,10 +1,9 @@
+using Coffee.UIExtensions;
 using System.Collections;
-using System.Collections.Generic;
 using UI;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
-public class EndGameMenuController : MonoBehaviour
+public class EndGameMenuController: MonoBehaviour
 {
     [SerializeField] private float showMenuDelay = 1f;
     [SerializeField] private float showNewHighScoreDelay = 0.1f;
@@ -12,6 +11,11 @@ public class EndGameMenuController : MonoBehaviour
     [SerializeField] private ScoreController playerScore;
     [SerializeField] private ScoreView highScoreView;
     [SerializeField] private ScoreView scoreView;
+    [SerializeField] private ParticleSystem confettiParticle;
+
+
+    private SoundManager soundManager;
+    private GameManager gameManager;
 
     private Animator animator;
 
@@ -19,6 +23,9 @@ public class EndGameMenuController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         PlayerHealth.OnPlayerDie += HandleEndGameMenu;
+
+        soundManager = SoundManager.instance;
+        gameManager = GameManager.Instance;
     }
 
     private void OnDestroy()
@@ -26,25 +33,30 @@ public class EndGameMenuController : MonoBehaviour
         PlayerHealth.OnPlayerDie -= HandleEndGameMenu;
     }
 
+    public void PlaySwipeSound()
+    {
+        soundManager.Play("Swipe", false);
+    }
+
     private void HandleEndGameMenu()
     {
-        StartCoroutine(ShowEndGameMenu());
+        Invoke(nameof(ShowEndGameMenu), showMenuDelay);
     }
 
-    private IEnumerator ShowEndGameMenu()
+    private void ShowEndGameMenu()
     {
-        yield return new WaitForSeconds(showMenuDelay);
         animator.SetBool("IsMenuShowed", true);
-        SoundManager.instance.Stop("CaveAmb");
+        soundManager.Stop("CaveAmb");
     }
 
-    public void SetScoresText()
+    public void HandleScoreDisplay()
     {
         playerScore.SetScoreView(scoreView);
         AccrueScore();
-        if (GameManager.Instance.HighScore != 0)
+
+        if (gameManager.HighScore != 0)
         {
-            highScoreView.DisplayScore(GameManager.Instance.HighScore);
+            highScoreView.DisplayScore(gameManager.HighScore);
         }
     }
 
@@ -60,7 +72,7 @@ public class EndGameMenuController : MonoBehaviour
         while (currentScore < scoreAmount)
         {
             currentScore = Mathf.CeilToInt(Mathf.Lerp(currentScore, scoreAmount, 30f * Time.deltaTime));
-            SoundManager.instance.Play("AddPoint", false);
+            soundManager.Play("AddPoint", false);
             scoreView.DisplayScore(currentScore);
             yield return null;
         }
@@ -68,25 +80,38 @@ public class EndGameMenuController : MonoBehaviour
         currentScore = scoreAmount;
         scoreView.DisplayScore(currentScore);
         animator.SetTrigger("OnScoreShowed");
+        soundManager.Play("Pop", true);
         ProcessNewHighScore();
+        menuPresenter.ToggleMenuAndHud();
+        menuPresenter.GetMenuView().SetContinueButtonVisibility(false);
+        gameManager.ProcessRestartLevel();
     }
 
     private void ProcessNewHighScore()
     {
         if (playerScore.Score > GameManager.Instance.HighScore)
         {
-            GameManager.Instance.SetHighScoreAsPlayers();
-            StartCoroutine(SetNewHighScore());
-            menuPresenter.ToggleMenuAndHud();
-            menuPresenter.GetMenuView().SetContinueButtonVisibility(false);
-            GameManager.Instance.ProcessRestartLevel();
+            UpdateHighScore();
         }
+    }
+
+    private void UpdateHighScore()
+    {
+        gameManager.SetHighScoreAsPlayers();
+        StartCoroutine(SetNewHighScore());
     }
 
     private IEnumerator SetNewHighScore()
     {
         yield return new WaitForSeconds(showNewHighScoreDelay);
         highScoreView.DisplayScore(playerScore.Score);
-        SoundManager.instance.Play("HighScore", true);
+        soundManager.Play("Pop", true);
+        Invoke(nameof(OnNewHighScore), 0.1f);
+    }
+
+    public void OnNewHighScore()
+    {
+        soundManager.Play("NewHighScore", false);
+        confettiParticle.Play();
     }
 }

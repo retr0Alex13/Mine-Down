@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class PlayerDeath : MonoBehaviour
 {
     [SerializeField] private Animator playerAnimator;
+    [SerializeField] private CinemachineVirtualCamera playerCamera;
 
     private Rigidbody playerRigidbody;
 
@@ -30,5 +30,6 @@ public class PlayerDeath : MonoBehaviour
         playerAnimator.SetTrigger("IsDead");
 
         SoundManager.instance.Play("DeathSound", false);
+        playerCamera.Follow = null;
     }
 }

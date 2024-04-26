@@ -7,15 +7,9 @@ namespace UI
     {
         [SerializeField] private Animator menuAnimator;
         [SerializeField] private Animator hudAnimator;
-        [SerializeField] private Button pauseButton;
         [SerializeField] private Button continueButton;
 
         [SerializeField] private MenuPresenter menuPresenter;
-
-        private void Start()
-        {
-            pauseButton.onClick.AddListener(menuPresenter.ToggleMenuAndHud);
-        }
 
         public void SetMenuVisibility(bool isVisible)
         {

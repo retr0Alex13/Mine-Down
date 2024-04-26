@@ -10,11 +10,6 @@ public class ScoreView : MonoBehaviour
         scoreText = GetComponent<TMP_Text>();
     }
 
-    private void OnEnable()
-    {
-
-    }
-
     public void DisplayScore(int scoreAmount)
     {
         scoreText.text = scoreAmount.ToString();
