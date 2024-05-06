@@ -5,25 +5,38 @@ using UnityEngine.UI;
 
 public class SwapSprites : MonoBehaviour
 {
-    [SerializeField] Sprite sprite1;
-    [SerializeField] Sprite sprite2;
+    [SerializeField] Sprite mutedSprite;
+    [SerializeField] Sprite unmutedSprite;
 
     private Button button;
 
     private void Start()
     {
         button = GetComponent<Button>();
+        SetStartButtonSprite();
+    }
+
+    private void SetStartButtonSprite()
+    {
+        if (GameManager.Instance.IsMuted)
+        {
+            button.image.sprite = mutedSprite;
+        }
+        else
+        {
+            button.image.sprite = unmutedSprite;
+        }
     }
 
     public void Swap()
     {
-        if (button.image.sprite == sprite1)
+        if (button.image.sprite == mutedSprite)
         {
-            button.image.sprite = sprite2;
+            button.image.sprite = unmutedSprite;
         }
         else
         {
-            button.image.sprite = sprite1;
+            button.image.sprite = mutedSprite;
         }
     }
 }
