@@ -9,10 +9,13 @@ public class GameManager : MonoBehaviour
     private ScoreController scoreController;
     public static bool IsGamePaused { get; private set; }
     public int HighScore { get; private set; }
+    public bool IsMuted { get; private set; }
 
     public static GameManager Instance;
 
     private const float RestartDelay = 3f;
+
+    private int gamePlayed = 1;
 
     private Coroutine restartLevelCoroutine;
 
@@ -51,7 +54,7 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= CancelLevelRestart;
     }
 
-    private void CancelLevelRestart(Scene scene, LoadSceneMode loadSceneMode)
+    public void CancelLevelRestart(Scene scene, LoadSceneMode loadSceneMode)
     {
         if (restartLevelCoroutine == null)
         {
@@ -88,7 +91,12 @@ public class GameManager : MonoBehaviour
     public void RestartLevel()
     {
         ResumeGame();
+        gamePlayed++;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (gamePlayed % 3 == 0)
+        {
+            AdsManager.Instance.interstitialAd.ShowAd();
+        }
     }
 
     public void SetVolume(float volume)
@@ -104,10 +112,12 @@ public class GameManager : MonoBehaviour
         if (currentVolume == 0f)
         {
             SetVolume(-80f);
+            IsMuted = true;
         }
         else
         {
             SetVolume(0f);
+            IsMuted = false;
         }
     }
 

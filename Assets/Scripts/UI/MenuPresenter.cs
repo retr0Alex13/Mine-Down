@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -7,6 +8,12 @@ namespace UI
         // Visualize restart delay
         [SerializeField] private MenuView menuView;
         [SerializeField] private PlayerLanding player;
+
+        [SerializeField] private Button pauseButton;
+        [SerializeField] private Button continueButton;
+        [SerializeField] private Button soundButton;
+
+        [SerializeField] private GameObject tutorialSprites;
 
         private PlayerModel playerModel;
         private const float initialPositionTolerance = 0.1f;
@@ -28,6 +35,17 @@ namespace UI
         private void OnDestroy()
         {
             player.OnPlayerLanded -= HandlePlayerLanded;
+
+            pauseButton.onClick.RemoveAllListeners();
+            continueButton.onClick.RemoveAllListeners();
+            soundButton.onClick.RemoveAllListeners();
+        }
+
+        private void Start()
+        {
+            pauseButton.onClick.AddListener(GameManager.Instance.PauseGame);
+            continueButton.onClick.AddListener(GameManager.Instance.ResumeGame);
+            soundButton.onClick.AddListener(GameManager.Instance.ToggleSound);
         }
 
         private void Update()
@@ -43,6 +61,8 @@ namespace UI
             {
                 menuView.SetMenuVisibility(true);
                 menuView.SetHudVisibility(true);
+                tutorialSprites.SetActive(false);
+
                 shouldCheckMenuAndHudVisibility = false;
             }
         }

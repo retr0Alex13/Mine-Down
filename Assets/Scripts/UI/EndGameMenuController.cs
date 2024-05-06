@@ -2,6 +2,7 @@ using Coffee.UIExtensions;
 using System.Collections;
 using UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EndGameMenuController: MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class EndGameMenuController: MonoBehaviour
     [SerializeField] private ScoreView highScoreView;
     [SerializeField] private ScoreView scoreView;
     [SerializeField] private ParticleSystem confettiParticle;
+    [SerializeField] private GameObject leaderboardButton;
 
 
     private SoundManager soundManager;
@@ -111,7 +113,10 @@ public class EndGameMenuController: MonoBehaviour
 
     public void OnNewHighScore()
     {
+        gameManager.CancelLevelRestart(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+
         soundManager.Play("NewHighScore", false);
         confettiParticle.Play();
+        leaderboardButton.SetActive(true);
     }
 }

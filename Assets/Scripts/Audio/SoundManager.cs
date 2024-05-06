@@ -56,6 +56,29 @@ public class SoundManager : MonoBehaviour
         // Add this part after having a theme song
         // Play('Theme');
     }
+    public void Play(string name)
+    {
+        Sound sound = Array.Find(sounds, s => s.name == name);
+
+        if (sound == null)
+        {
+            Debug.LogError("Sound " + name + " Not Found!");
+            return;
+        }
+        if (sound.clips.Length > 0)
+        {
+            sound.source.clip = sound.clips[UnityEngine.Random.Range(0, sound.clips.Length)];
+        }
+        else
+        {
+            sound.source.clip = sound.clips[0];
+        }
+    
+        int clipIndex = Array.IndexOf(sound.clips, sound.source.clip);
+
+        if (!CanPlaySound(sound, clipIndex)) return;
+        sound.source.Play();
+    }
     public void Play(string name, bool randomPitch)
     {
         Sound sound = Array.Find(sounds, s => s.name == name);
