@@ -7125,7 +7125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e190bcea9fa394a4fa1c4863a4c3754c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 0.8
   maxSpeed: 3
   speedMultiplier: 0.1
 --- !u!54 &361318462
@@ -36443,12 +36443,12 @@ MonoBehaviour:
     - {fileID: 3220671584038251656, guid: 2263cb0c1dec9d4408fdfe111b0d0fdc, type: 3}
     spawnChance: 0.4
     spawnChanceMultiplier: 0.05
-    maxSpawnChance: 0.8
+    maxSpawnChance: 0.5
   - blockPrefabs:
     - {fileID: 5578439397541442044, guid: d379abf3316313f42855c2aaca8c016d, type: 3}
-    spawnChance: 0.1
+    spawnChance: 0.05
     spawnChanceMultiplier: 0.02
-    maxSpawnChance: 0.4
+    maxSpawnChance: 0.3
   - blockPrefabs:
     - {fileID: 486708175488726358, guid: cbd5d8fdd5ce166419eac8dfafedc2dd, type: 3}
     - {fileID: 6450037762132572065, guid: d82330a4256015a4697a96c67ad07bd8, type: 3}
@@ -36457,15 +36457,15 @@ MonoBehaviour:
     maxSpawnChance: 0.6
   - blockPrefabs:
     - {fileID: 4225756335917880555, guid: 83e3a997dc87c9a418f4f75d6787fd80, type: 3}
-    spawnChance: 0.2
+    spawnChance: 0.1
     spawnChanceMultiplier: 0.03
-    maxSpawnChance: 0.6
+    maxSpawnChance: 0.3
   - blockPrefabs:
     - {fileID: 2505538716589360065, guid: 46e4de6d9e4f24744beac700a90644bf, type: 3}
     - {fileID: 7982775427626129177, guid: 3bc860b566315bc46b1860a212761c8d, type: 3}
-    spawnChance: 0.15
+    spawnChance: 0.03
     spawnChanceMultiplier: 0.02
-    maxSpawnChance: 0.5
+    maxSpawnChance: 0.4
   - blockPrefabs:
     - {fileID: 1112001855627762644, guid: 318625a28779cab4e8a1f61eac0d3353, type: 3}
     - {fileID: 7398395468969162243, guid: 4eb1e3b9debfefb4ea1f11c2817dddcf, type: 3}
@@ -36475,8 +36475,8 @@ MonoBehaviour:
   - blockPrefabs:
     - {fileID: 1112001855627762644, guid: c9d03d4e7a5537d41a6301f43ac82a91, type: 3}
     spawnChance: 0.15
-    spawnChanceMultiplier: 0.02
-    maxSpawnChance: 0.5
+    spawnChanceMultiplier: 0.05
+    maxSpawnChance: 0.4
   wallBlock: {fileID: 4225756335917880555, guid: 83e3a997dc87c9a418f4f75d6787fd80,
     type: 3}
   dirtBlock: {fileID: 3384221456907895875, guid: 533999d98b16b3b4386cd7af63375e67,
