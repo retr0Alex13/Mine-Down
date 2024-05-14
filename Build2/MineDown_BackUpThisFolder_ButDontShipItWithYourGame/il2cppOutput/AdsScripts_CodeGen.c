@@ -1,0 +1,104 @@
+﻿#include "pch-c.h"
+#ifndef _MSC_VER
+# include <alloca.h>
+#else
+# include <malloc.h>
+#endif
+
+
+#include "codegen/il2cpp-codegen-metadata.h"
+
+
+
+
+
+extern void AdsInitializer_Awake_mEEB69752FF535CD2CBF6709FCF0F0B2EBCC23DA2 (void);
+extern void AdsInitializer_InitializeAds_mD9D6C6157B5D97E9D51F6FB98C7288A75E92C21A (void);
+extern void AdsInitializer_OnInitializationComplete_m11212E09DE474893DDFAFBFFBA4253BAC2FE7086 (void);
+extern void AdsInitializer_OnInitializationFailed_mE6135DA695F658036D88C48BCEAF342EF270116C (void);
+extern void AdsInitializer__ctor_m96C2939CF5809772B05E85B6976CCA5182AF60AF (void);
+extern void AdsManager_get_Instance_m32E72409622BA7108391D50CD00C2009040822FE (void);
+extern void AdsManager_set_Instance_mCF06D0B3E7AEAD69DD9ADBA35885A3967D18BBA3 (void);
+extern void AdsManager_Awake_m7653D285A8F25B762D7660669704B5CA4D029AF5 (void);
+extern void AdsManager__ctor_mCBC33C0B7E7EC389586A1118214A7B690F2D0A7E (void);
+extern void InterstitialAd_Awake_mF1ACABEF4B0F809D7AC614F75C9F8C14DB177CEE (void);
+extern void InterstitialAd_LoadAd_mFC40102A5B76F1284C349BEEE11EAFEAC6D564CC (void);
+extern void InterstitialAd_ShowAd_mCC56FD0278D65EEDEA74B451FC0790B6A54C58FD (void);
+extern void InterstitialAd_OnUnityAdsAdLoaded_m35B2A160D30EB0CA84720A8FCA368D37604B378B (void);
+extern void InterstitialAd_OnUnityAdsFailedToLoad_m694705BBA844838BD06C762B6CC7D427B2210B66 (void);
+extern void InterstitialAd_OnUnityAdsShowFailure_m18F66BB1293005FA8614811D5DDD4A3BC952FF1C (void);
+extern void InterstitialAd_OnUnityAdsShowStart_m8736716AB605CE2E22F15B9F8B0EF01E04B2F646 (void);
+extern void InterstitialAd_OnUnityAdsShowClick_m3988D1284AD238B55FBAA8A93251A4444C286EF5 (void);
+extern void InterstitialAd_OnUnityAdsShowComplete_m58A886C95B34B0A56864CBDB3DC92DB7944988D5 (void);
+extern void InterstitialAd__ctor_mB4380BB14F092F9B9A61094972E8FB1EED526265 (void);
+extern void UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_m87844AEB0CD23B2A76A059CADB810B0FA19DEE28 (void);
+extern void UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_m76E3DA004824F02F6A3D7AD190A7FEA789B4A322 (void);
+static Il2CppMethodPointer s_methodPointers[21] = 
+{
+	AdsInitializer_Awake_mEEB69752FF535CD2CBF6709FCF0F0B2EBCC23DA2,
+	AdsInitializer_InitializeAds_mD9D6C6157B5D97E9D51F6FB98C7288A75E92C21A,
+	AdsInitializer_OnInitializationComplete_m11212E09DE474893DDFAFBFFBA4253BAC2FE7086,
+	AdsInitializer_OnInitializationFailed_mE6135DA695F658036D88C48BCEAF342EF270116C,
+	AdsInitializer__ctor_m96C2939CF5809772B05E85B6976CCA5182AF60AF,
+	AdsManager_get_Instance_m32E72409622BA7108391D50CD00C2009040822FE,
+	AdsManager_set_Instance_mCF06D0B3E7AEAD69DD9ADBA35885A3967D18BBA3,
+	AdsManager_Awake_m7653D285A8F25B762D7660669704B5CA4D029AF5,
+	AdsManager__ctor_mCBC33C0B7E7EC389586A1118214A7B690F2D0A7E,
+	InterstitialAd_Awake_mF1ACABEF4B0F809D7AC614F75C9F8C14DB177CEE,
+	InterstitialAd_LoadAd_mFC40102A5B76F1284C349BEEE11EAFEAC6D564CC,
+	InterstitialAd_ShowAd_mCC56FD0278D65EEDEA74B451FC0790B6A54C58FD,
+	InterstitialAd_OnUnityAdsAdLoaded_m35B2A160D30EB0CA84720A8FCA368D37604B378B,
+	InterstitialAd_OnUnityAdsFailedToLoad_m694705BBA844838BD06C762B6CC7D427B2210B66,
+	InterstitialAd_OnUnityAdsShowFailure_m18F66BB1293005FA8614811D5DDD4A3BC952FF1C,
+	InterstitialAd_OnUnityAdsShowStart_m8736716AB605CE2E22F15B9F8B0EF01E04B2F646,
+	InterstitialAd_OnUnityAdsShowClick_m3988D1284AD238B55FBAA8A93251A4444C286EF5,
+	InterstitialAd_OnUnityAdsShowComplete_m58A886C95B34B0A56864CBDB3DC92DB7944988D5,
+	InterstitialAd__ctor_mB4380BB14F092F9B9A61094972E8FB1EED526265,
+	UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_m87844AEB0CD23B2A76A059CADB810B0FA19DEE28,
+	UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_m76E3DA004824F02F6A3D7AD190A7FEA789B4A322,
+};
+static const int32_t s_InvokerIndices[21] = 
+{
+	8155,
+	8155,
+	8155,
+	3221,
+	8155,
+	14383,
+	13521,
+	8155,
+	8155,
+	8155,
+	8155,
+	8155,
+	6392,
+	1775,
+	1775,
+	6392,
+	6392,
+	3513,
+	8155,
+	14459,
+	8155,
+};
+IL2CPP_EXTERN_C const Il2CppCodeGenModule g_AdsScripts_CodeGenModule;
+const Il2CppCodeGenModule g_AdsScripts_CodeGenModule = 
+{
+	"AdsScripts.dll",
+	21,
+	s_methodPointers,
+	0,
+	NULL,
+	s_InvokerIndices,
+	0,
+	NULL,
+	0,
+	NULL,
+	0,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+};
