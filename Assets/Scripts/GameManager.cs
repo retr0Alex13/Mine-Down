@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
         };
 
         LoadHighScore();
+        Application.targetFrameRate = 30;
     }
 
     private void LoadHighScore()

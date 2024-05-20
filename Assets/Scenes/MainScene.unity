@@ -38451,7 +38451,7 @@ MonoBehaviour:
   blockWidth: 1
   moveSpeed: 7
   rotationSpeed: 15
-  groundCheckRadius: 0.02
+  groundCheckRadius: 0.1
   groundCheck: {fileID: 1887277665}
   playerLayerMask:
     serializedVersion: 2
