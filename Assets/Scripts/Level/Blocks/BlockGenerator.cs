@@ -41,8 +41,6 @@ public class BlockGenerator : MonoBehaviour
 
     private void Start()
     {
-        Application.targetFrameRate = 60;
-
         OnLevelEndTrigger.OnLevelEndTriggered += ProcessClearLevel;
         OnLevelEndTrigger.OnLevelEndTriggered += ProcessBlockGenerating;
         GenerateBlocks();
