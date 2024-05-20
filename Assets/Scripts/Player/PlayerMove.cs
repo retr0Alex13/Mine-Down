@@ -42,19 +42,14 @@ public class PlayerMove : MonoBehaviour
         swipeDetection.OnHorizontalSwipe -= MovePlayer;
     }
 
+    private void FixedUpdate()
+    {
+        IsGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, playerLayerMask);
+        animator.SetBool("IsGrounded", IsGrounded);
+    }
+
     private void Update()
     {
-        if (Physics.CheckSphere(groundCheck.position, groundCheckRadius, playerLayerMask))
-        {
-            IsGrounded = true;
-            animator.SetBool("IsGrounded", IsGrounded);
-        }
-        else
-        {
-            IsGrounded = false;
-            animator.SetBool("IsGrounded", IsGrounded);
-        }
-
         if (IsMoving)
         {
             RotatePlayerModel(rotationTarget);
@@ -77,7 +72,7 @@ public class PlayerMove : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(directionToTarget, Vector3.up);
 
             // Застосування обертання до модельки гравця
-            playerModelTransform.rotation = Quaternion.Lerp(playerModelTransform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            playerModelTransform.rotation = Quaternion.Lerp(playerModelTransform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }
     }
 
@@ -88,17 +83,7 @@ public class PlayerMove : MonoBehaviour
 
     private void MovePlayer(Vector2 direction)
     {
-        if (IsMoving)
-        {
-            return;
-        }
-
-        if (!IsGrounded)
-        {
-            return;
-        }
-
-        if (IsPathBlocked(direction))
+        if (IsMoving || !IsGrounded || IsPathBlocked(direction))
         {
             return;
         }
@@ -108,6 +93,7 @@ public class PlayerMove : MonoBehaviour
         StartCoroutine(MoveToPoint());
         SoundManager.instance.Play("PlayerMove", false);
     }
+
 
     private bool IsPathBlocked(Vector2 checkDirection)
     {
@@ -138,7 +124,7 @@ public class PlayerMove : MonoBehaviour
         {
             Vector3 newPosition = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
             body.MovePosition(newPosition);
-            yield return null;
+            yield return new WaitForFixedUpdate(); // Use FixedUpdate to synchronize with physics
         }
 
         IsMoving = false;
