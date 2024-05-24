@@ -17,6 +17,8 @@ public class SwipeDetection : MonoBehaviour
     private float directionThreshold = 0.9f;
     [SerializeField]
     private GameObject trail;
+    [SerializeField]
+    private PlayerMove playerMove; // Reference to PlayerMove script
 
     private InputManager inputManager;
 
@@ -47,7 +49,7 @@ public class SwipeDetection : MonoBehaviour
 
     private void SwipeStart(Vector2 position, float time)
     {
-        if (GameManager.IsGamePaused)
+        if (GameManager.IsGamePaused || playerMove.IsLanding) // Check if player is landing
         {
             return;
         }
@@ -60,7 +62,7 @@ public class SwipeDetection : MonoBehaviour
 
     private IEnumerator Trail()
     {
-        while (true) 
+        while (true)
         {
             trail.transform.position = new Vector3(inputManager.PrimaryPosition().x, inputManager.PrimaryPosition().y, trail.transform.position.z);
             yield return null;
@@ -69,6 +71,10 @@ public class SwipeDetection : MonoBehaviour
 
     private void SwipeEnd(Vector2 position, float time)
     {
+        if (playerMove.IsLanding) // Check if player is landing
+        {
+            return;
+        }
         trail.SetActive(false);
         StopCoroutine(trailCoroutine);
         endPosition = position;
@@ -78,7 +84,6 @@ public class SwipeDetection : MonoBehaviour
 
     private void DetectSwipe()
     {
-
         if (Vector3.Distance(startPosition, endPosition) >= minimumDistance &&
             (endTime - startTime) <= maximumTime)
         {

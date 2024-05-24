@@ -9,7 +9,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private float groundCheckRadius = 0.1f;
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private LayerMask playerLayerMask;
+    [SerializeField] private LayerMask groundLayerMask;
+    [SerializeField] private float landingDelay = 0.2f; // New variable for landing delay
 
     [Space(10)]
     [SerializeField] private Transform playerModelTransform;
@@ -18,20 +19,22 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private Transform rightRotationTarget;
     [SerializeField] private Transform defaultRotationTarget;
 
-
     private Rigidbody body;
     private Vector3 targetPosition;
     private Transform rotationTarget;
     private Vector2 swipeDirection;
 
     public bool IsMoving { get; private set; }
-    public bool IsGrounded {  get; private set; }
+    public bool IsGrounded { get; private set; }
+    private bool isLanding; // New variable to track landing delay
+
+    public bool IsLanding => isLanding; // Public property to expose isLanding state
 
     private void Awake()
     {
         body = GetComponent<Rigidbody>();
     }
-    
+
     private void OnEnable()
     {
         swipeDetection.OnHorizontalSwipe += MovePlayer;
@@ -44,8 +47,32 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        IsGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, playerLayerMask);
+        UpdateIsGrounded();
+    }
+
+    private void UpdateIsGrounded()
+    {
+        bool wasGrounded = IsGrounded;
+        IsGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayerMask);
         animator.SetBool("IsGrounded", IsGrounded);
+
+        if (IsGrounded && !wasGrounded)
+        {
+            StartCoroutine(LandingDelay()); // Start landing delay when player lands
+        }
+    }
+
+    private IEnumerator LandingDelay()
+    {
+        isLanding = true;
+        yield return new WaitForSeconds(landingDelay);
+        isLanding = false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(groundCheck.position, groundCheckRadius);
     }
 
     private void Update()
@@ -62,28 +89,22 @@ public class PlayerMove : MonoBehaviour
 
     private void RotatePlayerModel(Transform target)
     {
-        // Перевірка, чи гравець досягнув заданої точки
         if (playerModelTransform.position.y < target.position.y)
         {
-            // Обчислення вектору, який вказує в напрямку заданої точки
             Vector3 directionToTarget = target.position - playerModelTransform.position;
-
-            // Обчислення обертання для повернення гравця у задану точку
             Quaternion targetRotation = Quaternion.LookRotation(directionToTarget, Vector3.up);
-
-            // Застосування обертання до модельки гравця
-            playerModelTransform.rotation = Quaternion.Lerp(playerModelTransform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+            playerModelTransform.rotation = Quaternion.Lerp(playerModelTransform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(groundCheck.position, groundCheckRadius);
     }
 
     private void MovePlayer(Vector2 direction)
     {
-        if (IsMoving || !IsGrounded || IsPathBlocked(direction))
+        if (IsMoving || !IsGrounded || isLanding)
+        {
+            return;
+        }
+
+        if (IsPathBlocked(direction))
         {
             return;
         }
@@ -94,22 +115,19 @@ public class PlayerMove : MonoBehaviour
         SoundManager.instance.Play("PlayerMove", false);
     }
 
-
     private bool IsPathBlocked(Vector2 checkDirection)
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, checkDirection, out hit, blockWidth))
         {
-            if (hit.transform.TryGetComponent(out Wall wall))
+            if (hit.transform.GetComponent<Wall>() != null)
             {
                 return true;
             }
-            if (hit.transform.TryGetComponent(out Block block))
+            Block block = hit.transform.GetComponent<Block>();
+            if (block != null && block.HealthPoints > 0)
             {
-                if (block.HealthPoints > 0)
-                {
-                    return true;
-                }
+                return true;
             }
         }
         return false;
@@ -124,11 +142,15 @@ public class PlayerMove : MonoBehaviour
         {
             Vector3 newPosition = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
             body.MovePosition(newPosition);
-            yield return new WaitForFixedUpdate(); // Use FixedUpdate to synchronize with physics
+            yield return new WaitForFixedUpdate();
         }
 
         IsMoving = false;
         animator.SetBool("IsRunning", IsMoving);
+
+        // Re-check grounded status after moving
+        yield return new WaitForSeconds(0.1f); // Small delay to ensure grounded status is updated
+        UpdateIsGrounded();
     }
 
     private void SetTargetDirection()
@@ -136,13 +158,12 @@ public class PlayerMove : MonoBehaviour
         if (swipeDirection == Vector2.left)
         {
             targetPosition = transform.position + new Vector3(-1f, 0f, 0f) * blockWidth;
-            rotationTarget = rightRotationTarget;
+            rotationTarget = leftRotationTarget;
         }
         else if (swipeDirection == Vector2.right)
         {
             targetPosition = transform.position + new Vector3(1f, 0f, 0f) * blockWidth;
-            rotationTarget = leftRotationTarget;
+            rotationTarget = rightRotationTarget;
         }
     }
-
 }

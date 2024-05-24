@@ -7125,8 +7125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e190bcea9fa394a4fa1c4863a4c3754c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
-  maxSpeed: 4
+  speed: 0.7
+  maxSpeed: 2.5
   speedMultiplier: 0.1
 --- !u!54 &361318462
 Rigidbody:
@@ -7138,7 +7138,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -7167,7 +7167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a8b6f71205f65e4984d42301917372d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnCollapseDelay: 2
+  spawnCollapseDelay: 2.5
   collapseOffsetSpawn: 10
 --- !u!114 &361318464
 MonoBehaviour:
@@ -13106,6 +13106,7 @@ MonoBehaviour:
   maximumTime: 1
   directionThreshold: 0.9
   trail: {fileID: 866844741}
+  playerMove: {fileID: 1975887501}
 --- !u!114 &710369407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38453,13 +38454,14 @@ MonoBehaviour:
   rotationSpeed: 15
   groundCheckRadius: 0.1
   groundCheck: {fileID: 1887277665}
-  playerLayerMask:
+  groundLayerMask:
     serializedVersion: 2
     m_Bits: 55
+  landingDelay: 0.05
   playerModelTransform: {fileID: 8423318465602020009}
   animator: {fileID: 2451523148236962003}
-  leftRotationTarget: {fileID: 1813470062}
-  rightRotationTarget: {fileID: 1059805526}
+  leftRotationTarget: {fileID: 1059805526}
+  rightRotationTarget: {fileID: 1813470062}
   defaultRotationTarget: {fileID: 1453207543}
 --- !u!54 &1975887502
 Rigidbody:
@@ -38471,7 +38473,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
