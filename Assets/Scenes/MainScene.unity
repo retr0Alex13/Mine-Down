@@ -7125,8 +7125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e190bcea9fa394a4fa1c4863a4c3754c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.7
-  maxSpeed: 2.5
+  speed: 0.5
+  maxSpeed: 2.2
   speedMultiplier: 0.1
 --- !u!54 &361318462
 Rigidbody:
@@ -7167,7 +7167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a8b6f71205f65e4984d42301917372d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnCollapseDelay: 2.5
+  spawnCollapseDelay: 1.8
   collapseOffsetSpawn: 10
 --- !u!114 &361318464
 MonoBehaviour:
@@ -36448,8 +36448,8 @@ MonoBehaviour:
   - blockPrefabs:
     - {fileID: 5578439397541442044, guid: d379abf3316313f42855c2aaca8c016d, type: 3}
     spawnChance: 0.05
-    spawnChanceMultiplier: 0.02
-    maxSpawnChance: 0.3
+    spawnChanceMultiplier: 0.01
+    maxSpawnChance: 0.15
   - blockPrefabs:
     - {fileID: 486708175488726358, guid: cbd5d8fdd5ce166419eac8dfafedc2dd, type: 3}
     - {fileID: 6450037762132572065, guid: d82330a4256015a4697a96c67ad07bd8, type: 3}
@@ -36458,9 +36458,9 @@ MonoBehaviour:
     maxSpawnChance: 0.6
   - blockPrefabs:
     - {fileID: 4225756335917880555, guid: 83e3a997dc87c9a418f4f75d6787fd80, type: 3}
-    spawnChance: 0.1
+    spawnChance: 0.08
     spawnChanceMultiplier: 0.03
-    maxSpawnChance: 0.3
+    maxSpawnChance: 0.2
   - blockPrefabs:
     - {fileID: 2505538716589360065, guid: 46e4de6d9e4f24744beac700a90644bf, type: 3}
     - {fileID: 7982775427626129177, guid: 3bc860b566315bc46b1860a212761c8d, type: 3}

@@ -16,6 +16,7 @@ public class BlockType
 
 public class BlockGenerator : MonoBehaviour
 {
+    // TODO: RESET COLLAPSE POSITION ONCE IT REACHES THE END
 
     public LevelSettings levelSettings;
 
@@ -56,6 +57,7 @@ public class BlockGenerator : MonoBehaviour
     {
         Vector3 middleRowPosition = GetRowMiddlePosition(rowCount - 1);
         SetBlockSpawnPosition(middleRowPosition);
+        CreateUpgradeLevel();
         GenerateBlocks();
     }
 
@@ -68,6 +70,40 @@ public class BlockGenerator : MonoBehaviour
     {
         float middleXPosition = (levelSettings.CubesPerRow - 1) * 0.5f * 1f;
         return blockSpawnPosition.position + new Vector3(middleXPosition, -row * 1f, 0f);
+    }
+
+    private void CreateUpgradeLevel()
+    {
+        const int upgradeLevelHeight = 4;
+        const float offsetY = 5f;
+        const float wallOffsetY = offsetY + 1f;
+
+        for (int row = 0; row < upgradeLevelHeight; row++)
+        {
+            SpawnRow(row, offsetY);
+        }
+
+        // Walls on the top of each side
+        SpawnWall(new Vector3(-1, wallOffsetY));
+        SpawnWall(new Vector3(levelSettings.CubesPerRow, wallOffsetY));
+    }
+
+    private void SpawnRow(int row, float offsetY)
+    {
+        for (int cubeIndex = 0; cubeIndex < levelSettings.CubesPerRow; cubeIndex++)
+        {
+            Vector3 spawnPosition = CalculatePosition(cubeIndex, row, offsetY);
+            nextLevelList.Add(Instantiate(dirtBlock, spawnPosition, Quaternion.identity, blockParent));
+        }
+
+        // Walls on the sides
+        SpawnWall(CalculatePosition(-1, row, offsetY));
+        SpawnWall(CalculatePosition(levelSettings.CubesPerRow, row, offsetY));
+    }
+
+    private Vector3 CalculatePosition(int cubeIndex, int row, float offsetY)
+    {
+        return blockSpawnPosition.position + new Vector3(cubeIndex, -row + offsetY);
     }
 
     private void GenerateBlocks()
@@ -147,6 +183,15 @@ public class BlockGenerator : MonoBehaviour
     {
         Vector3 specialBlockSpawnPos = blockSpawnPosition.position + new Vector3((cubeIndex == 0) ? -1f : levelSettings.CubesPerRow * 1f, -row * 1f, 0f);
         nextLevelList.Add(Instantiate(wallBlock, specialBlockSpawnPos, Quaternion.identity, blockParent));
+    }
+
+    private void SpawnWall(Vector3 position)
+    {
+        GameObject wallPrefab = wallBlock;
+        if (wallPrefab != null)
+        {
+            nextLevelList.Add(Instantiate(wallPrefab, position, Quaternion.identity, blockParent));
+        }
     }
 
     private GameObject ChooseBlockPrefab(float randomValue)
