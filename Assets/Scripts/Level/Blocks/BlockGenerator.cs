@@ -76,16 +76,14 @@ public class BlockGenerator : MonoBehaviour
     {
         const int upgradeLevelHeight = 4;
         const float offsetY = 5f;
-        const float wallOffsetY = offsetY + 1f;
 
         for (int row = 0; row < upgradeLevelHeight; row++)
         {
             SpawnRow(row, offsetY);
         }
 
-        // Walls on the top of each side
-        SpawnWall(new Vector3(-1, wallOffsetY));
-        SpawnWall(new Vector3(levelSettings.CubesPerRow, wallOffsetY));
+        // Spawn blocks on top left and top right corners
+        SpawnCornerBlocks(offsetY);
     }
 
     private void SpawnRow(int row, float offsetY)
@@ -96,14 +94,35 @@ public class BlockGenerator : MonoBehaviour
             nextLevelList.Add(Instantiate(dirtBlock, spawnPosition, Quaternion.identity, blockParent));
         }
 
-        // Walls on the sides
-        SpawnWall(CalculatePosition(-1, row, offsetY));
-        SpawnWall(CalculatePosition(levelSettings.CubesPerRow, row, offsetY));
+        // Spawn wall blocks at the ends of the row
+        SpawnWallBlocks(row, offsetY);
     }
 
     private Vector3 CalculatePosition(int cubeIndex, int row, float offsetY)
     {
         return blockSpawnPosition.position + new Vector3(cubeIndex, -row + offsetY);
+    }
+
+    private void SpawnWallBlocks(int row, float offsetY)
+    {
+        // Spawn left wall block
+        Vector3 leftWallPosition = CalculatePosition(-1, row, offsetY);
+        nextLevelList.Add(Instantiate(wallBlock, leftWallPosition, Quaternion.identity, blockParent));
+
+        // Spawn right wall block
+        Vector3 rightWallPosition = CalculatePosition(levelSettings.CubesPerRow, row, offsetY);
+        nextLevelList.Add(Instantiate(wallBlock, rightWallPosition, Quaternion.identity, blockParent));
+    }
+
+    private void SpawnCornerBlocks(float offsetY)
+    {
+        // Spawn top left corner block
+        Vector3 topLeftPosition = CalculatePosition(-1, -1, offsetY);
+        nextLevelList.Add(Instantiate(wallBlock, topLeftPosition, Quaternion.identity, blockParent));
+
+        // Spawn top right corner block
+        Vector3 topRightPosition = CalculatePosition(levelSettings.CubesPerRow, -1, offsetY);
+        nextLevelList.Add(Instantiate(wallBlock, topRightPosition, Quaternion.identity, blockParent));
     }
 
     private void GenerateBlocks()
@@ -184,15 +203,7 @@ public class BlockGenerator : MonoBehaviour
         Vector3 specialBlockSpawnPos = blockSpawnPosition.position + new Vector3((cubeIndex == 0) ? -1f : levelSettings.CubesPerRow * 1f, -row * 1f, 0f);
         nextLevelList.Add(Instantiate(wallBlock, specialBlockSpawnPos, Quaternion.identity, blockParent));
     }
-
-    private void SpawnWall(Vector3 position)
-    {
-        GameObject wallPrefab = wallBlock;
-        if (wallPrefab != null)
-        {
-            nextLevelList.Add(Instantiate(wallPrefab, position, Quaternion.identity, blockParent));
-        }
-    }
+    
 
     private GameObject ChooseBlockPrefab(float randomValue)
     {
