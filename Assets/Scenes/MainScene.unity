@@ -36482,6 +36482,8 @@ MonoBehaviour:
     type: 3}
   dirtBlock: {fileID: 3384221456907895875, guid: 533999d98b16b3b4386cd7af63375e67,
     type: 3}
+  furnanceBlock: {fileID: 4086865075972227269, guid: 3e969a65b619c7943ae5c1e94991e94f,
+    type: 3}
   blockSpawnPosition: {fileID: 316569376}
   blockParent: {fileID: 2102214685}
   startLevelCollider: {fileID: 279898940}

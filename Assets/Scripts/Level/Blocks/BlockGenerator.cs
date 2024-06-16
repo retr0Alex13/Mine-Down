@@ -24,6 +24,7 @@ public class BlockGenerator : MonoBehaviour
 
     [SerializeField] private GameObject wallBlock;
     [SerializeField] private GameObject dirtBlock;
+    [SerializeField] private GameObject furnanceBlock;
 
     [SerializeField] private Transform blockSpawnPosition;
     [SerializeField] private Transform blockParent;
@@ -84,6 +85,7 @@ public class BlockGenerator : MonoBehaviour
 
         // Spawn blocks on top left and top right corners
         SpawnCornerBlocks(offsetY);
+        SpawnUpgradeBlock(offsetY);
     }
 
     private void SpawnRow(int row, float offsetY)
@@ -123,6 +125,13 @@ public class BlockGenerator : MonoBehaviour
         // Spawn top right corner block
         Vector3 topRightPosition = CalculatePosition(levelSettings.CubesPerRow, -1, offsetY);
         nextLevelList.Add(Instantiate(wallBlock, topRightPosition, Quaternion.identity, blockParent));
+    }
+
+    private void SpawnUpgradeBlock(float offsetY)
+    {
+        Vector3 specialBlockPosition = CalculatePosition(levelSettings.CubesPerRow -1, -1, offsetY);
+        specialBlockPosition.z = +1f;
+        nextLevelList.Add(Instantiate(furnanceBlock, specialBlockPosition, furnanceBlock.transform.rotation, blockParent));
     }
 
     private void GenerateBlocks()
