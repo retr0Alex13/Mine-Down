@@ -14,6 +14,9 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private Animator playerAnimator;
 
+    private UpgradeType upgradeSlo1;
+    private UpgradeType upgradeSlot2;
+
     private Vector2 attackDirection;
     private PlayerMove playerMove;
 

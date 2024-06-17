@@ -23,13 +23,18 @@ public class ScoreController : MonoBehaviour
         this.scoreView = scoreView;
     }
 
-    private void AddScore(int scoreAmount)
+    public void AddScore(int scoreAmount)
     {
         StartCoroutine(SmoothAddScore(scoreAmount));
     }
 
     private IEnumerator SmoothAddScore(int scoreAmount)
     {
+        if (scoreAmount > Score)
+        {
+            yield return null;
+        }
+
         int targetScore = Score + scoreAmount;
 
         while (Score < targetScore)
@@ -40,6 +45,11 @@ public class ScoreController : MonoBehaviour
         }
 
         Score = targetScore;
+
+        if (Score < 0)
+        {
+            Score = 0;
+        }
         UpdateScoreView();
     }
 
