@@ -14,7 +14,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private Animator playerAnimator;
 
-    private UpgradeType upgradeSlo1;
+    private UpgradeType upgradeSlot1;
     private UpgradeType upgradeSlot2;
 
     private Vector2 attackDirection;
@@ -55,8 +55,9 @@ public class PlayerAttack : MonoBehaviour
 
     public void Attack()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, attackDirection, out hit, attackRange))
+        RaycastHit[] hits;
+        hits = Physics.RaycastAll(transform.position, attackDirection, attackRange);
+        foreach (var hit in hits)
         {
             if (hit.transform.TryGetComponent(out Block block))
             {
@@ -69,6 +70,21 @@ public class PlayerAttack : MonoBehaviour
 
                 SoundManager.instance.Play("PickAxe_Mining", true);
             }
+        }
+    }
+
+    public void SetUpgradeSlot(UpgradeType upgradeType)
+    {
+        switch (upgradeType)
+        {
+            case UpgradeType.Strength:
+                upgradeSlot1 = upgradeType;
+                attackAmount = 2;
+                break;
+            case UpgradeType.Range:
+                upgradeSlot2 = upgradeType;
+                attackRange = 1.5f;
+                break;
         }
     }
 }

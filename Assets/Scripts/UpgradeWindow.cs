@@ -6,6 +6,7 @@ public class UpgradeWindow : MonoBehaviour
     // TO DO: Play the upgrade sound
     // TO DO: Add the upgrade to the player
     [SerializeField] private ScoreController scoreController;
+    [SerializeField] private PlayerAttack playerAttack;
     [SerializeField] private GameObject itemsPanel;
 
     private List<GameObject> upgrades;
@@ -40,11 +41,6 @@ public class UpgradeWindow : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        HandleUpgradeButton();
-    }
-
     public void HandleUpgradeButton()
     {
         foreach (var upgrade in upgrades)
@@ -64,7 +60,7 @@ public class UpgradeWindow : MonoBehaviour
     private void OnUpgradeBought(Upgrade upgrade)
     {
         scoreController.AddScore(-upgrade.Cost);
-        HandleUpgradeButton();
+        playerAttack.SetUpgradeSlot(upgrade.upgradeType);
     }
 
 }
