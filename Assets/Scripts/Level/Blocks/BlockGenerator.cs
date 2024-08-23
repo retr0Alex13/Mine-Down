@@ -16,8 +16,6 @@ public class BlockType
 
 public class BlockGenerator : MonoBehaviour
 {
-    // TODO: RESET COLLAPSE POSITION ONCE IT REACHES THE END
-
     public LevelSettings levelSettings;
 
     [SerializeField] private List<BlockType> blockTypes;

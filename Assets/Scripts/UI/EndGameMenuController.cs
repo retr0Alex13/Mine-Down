@@ -74,7 +74,7 @@ public class EndGameMenuController: MonoBehaviour
         while (currentScore < scoreAmount)
         {
             currentScore = Mathf.CeilToInt(Mathf.Lerp(currentScore, scoreAmount, 30f * Time.deltaTime));
-            soundManager.Play("AddPoint", false);
+            soundManager.Play("Pop2", false);
             scoreView.DisplayScore(currentScore);
             yield return null;
         }

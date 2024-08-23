@@ -13,6 +13,8 @@ public class UpgradeBlock : MonoBehaviour
     {
         if (other.TryGetComponent(out PlayerMove player))
         {
+            SoundManager.instance.Play("Pop");
+
             upgradeWindow.gameObject.SetActive(true);
             upgradeWindow.HandleUpgradeButton();
         }

@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class UpgradeWindow : MonoBehaviour
 {
-    // TO DO: Play the upgrade sound
-    // TO DO: Add the upgrade to the player
     [SerializeField] private ScoreController scoreController;
     [SerializeField] private PlayerAttack playerAttack;
     [SerializeField] private GameObject itemsPanel;
@@ -54,11 +52,13 @@ public class UpgradeWindow : MonoBehaviour
 
     public void CloseWindow()
     {
+        SoundManager.instance.Play("Pop");
         gameObject.SetActive(false);
     }
 
     private void OnUpgradeBought(Upgrade upgrade)
     {
+        SoundManager.instance.Play("Upgrade");
         scoreController.AddScore(-upgrade.Cost);
         playerAttack.SetUpgradeSlot(upgrade.upgradeType);
     }

@@ -61,6 +61,7 @@ public class UpgradeItem : MonoBehaviour
 
     public void BuyUpgrade()
     {
+        SoundManager.instance.Play("Pop");
         OnUpgradeBought?.Invoke(upgrade);
         upgrade.SetPurchased(true);
     }

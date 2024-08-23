@@ -12,7 +12,6 @@ public class DepthFirstSearch
         visited = new bool[rows, cubesPerRow];
         path = new List<Vector2Int>();
 
-        // Start DFS from a random position in the top row
         int startingCubeIndex = Random.Range(0, cubesPerRow);
         DFS(0, startingCubeIndex, rows, cubesPerRow);
 
@@ -24,7 +23,6 @@ public class DepthFirstSearch
         visited[row, cubeIndex] = true;
         path.Add(new Vector2Int(cubeIndex, row));
 
-        // Check neighbors (down, left, and right)
         List<Vector2Int> neighbors = new List<Vector2Int>
         {
             new Vector2Int(cubeIndex, row + 1),
@@ -32,7 +30,6 @@ public class DepthFirstSearch
             new Vector2Int(cubeIndex + 1, row)
         };
 
-        // Shuffle the neighbors to introduce randomness
         neighbors = neighbors.OrderBy(x => Random.value).ToList();
 
         foreach (var neighbor in neighbors)
@@ -44,7 +41,7 @@ public class DepthFirstSearch
                 !visited[neighborRow, neighborCubeIndex])
             {
                 DFS(neighborRow, neighborCubeIndex, rows, cubesPerRow);
-                break;  // Ensure only one path is created
+                break;
             }
         }
     }
