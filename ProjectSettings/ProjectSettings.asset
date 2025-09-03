@@ -143,7 +143,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 1.1.1
+  bundleVersion: 1.1.2
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -175,7 +175,7 @@ PlayerSettings:
     iPhone: 0
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
-  AndroidBundleVersionCode: 17
+  AndroidBundleVersionCode: 18
   AndroidMinSdkVersion: 23
   AndroidTargetSdkVersion: 36
   AndroidPreferredInstallLocation: 1
@@ -268,7 +268,7 @@ PlayerSettings:
   useCustomProguardFile: 0
   AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 1
-  androidSplashScreen: {fileID: 2800000, guid: d5f2e7a7b7455b8428a56ed721ab5390, type: 3}
+  androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: D:/Downloads/mineDown.keystore
   AndroidKeyaliasName: mine down
   AndroidEnableArmv9SecurityFeatures: 0
